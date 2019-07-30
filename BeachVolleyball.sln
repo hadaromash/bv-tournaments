@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeachVolleyball", "BeachVolleyball\BeachVolleyball.csproj", "{E79B7F5B-13B1-4E03-AF22-B99027B20CC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeachVolleyball.Server", "BeachVolleyball.Server\BeachVolleyball.Server.csproj", "{FE4DD3F4-B44F-440C-8C51-7F1E4DE29554}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E79B7F5B-13B1-4E03-AF22-B99027B20CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E79B7F5B-13B1-4E03-AF22-B99027B20CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E79B7F5B-13B1-4E03-AF22-B99027B20CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E79B7F5B-13B1-4E03-AF22-B99027B20CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE4DD3F4-B44F-440C-8C51-7F1E4DE29554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4DD3F4-B44F-440C-8C51-7F1E4DE29554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4DD3F4-B44F-440C-8C51-7F1E4DE29554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4DD3F4-B44F-440C-8C51-7F1E4DE29554}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9446294-2BD3-46ED-87F1-5788E0A7E69A}
+	EndGlobalSection
+EndGlobal
