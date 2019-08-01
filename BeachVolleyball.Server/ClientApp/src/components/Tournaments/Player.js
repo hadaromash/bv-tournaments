@@ -44,29 +44,4 @@ const AgeTitle = styled(Title)`
   grid-column: 5/6;
 `;
 
-const Data = styled.p`
-  grid-row: 2/3;
-  font-size: 0.8rem;
-`;
-
-const Name = styled(Data)`
-  grid-column: 1/2;
-`;
-
-const Rank = styled(Data)`
-  grid-column: 2/3;
-`;
-
-const PrevYearRank = styled(Data)`
-  grid-column: 3/4;
-`;
-
-const Association = styled(Data)`
-  grid-column: 4/5;
-`;
-
-const Age = styled(Data)`
-  grid-column: 5/6;
-`;
-
 export default Player;

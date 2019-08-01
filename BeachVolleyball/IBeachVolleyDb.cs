@@ -11,6 +11,12 @@ namespace BeachVolleyball
 
     public interface IBeachVolleyDb
     {
-        Task<List<Tournament>> GetTournaments();
+        Task<List<Tournament>> GetTournamentsAsync();
+
+        Task<List<Category>> GetCategoriesAsync(int tournamentId);
+
+        Task<List<Team>> GetTeamsAsync(int tournamentId, int categoryId, string categoryName);
+
+        Task<List<Player>> GetPlayersAsync(int tournamentId, int categoryId, string categoryName);
     }
 }

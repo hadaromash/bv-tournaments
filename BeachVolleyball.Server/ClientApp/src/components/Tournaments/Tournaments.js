@@ -24,7 +24,7 @@ export const TournamentSelection = () => {
     const setTours = async () => {
       var api = new TournamentApi();
       var tours = await api.getTournaments();
-      var categories = await api.getCategories();
+      var categories = await api.getCategories(tours[0].tournamentId);
       setState({
         tournaments: tours,
         categories: categories

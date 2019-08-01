@@ -15,6 +15,16 @@ namespace BeachVolleyball
 
     public class RanksMap : IRanksMap
     {
+        private enum CategoryType
+        {
+            MenA,
+            MenB,
+            WomenA,
+            WomenB,
+            YouthMen,
+            YouthWomen
+        }
+
         private Dictionary<string, double> ranksMap;
 
         public int Year { get; private set; }
@@ -25,8 +35,9 @@ namespace BeachVolleyball
             this.ranksMap = ranksMap;
         }
 
-        public static async Task<RanksMap> CreateAsync(int year, Category category)
+        public static async Task<RanksMap> CreateAsync(int year, string categoryName)
         {
+            CategoryType category = GetCategoryType(categoryName);
             var ranksMap = await CreateRanksMapAsync(year, category);
             return new RanksMap(year, ranksMap);
         }
@@ -42,7 +53,28 @@ namespace BeachVolleyball
             return 0;
         }
 
-        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, Category category)
+        private static CategoryType GetCategoryType(string displayName)
+        {
+            switch (displayName)
+            {
+                case "נשים רמה א'":
+                    return CategoryType.WomenA;
+                case "גברים רמה א'":
+                    return CategoryType.MenA;
+                case "גברים רמה ב'":
+                    return CategoryType.MenB;
+                case "נשים רמה ב'":
+                    return CategoryType.WomenB;
+                case "נוער בנים":
+                    return CategoryType.YouthMen;
+                case "נוער בנות":
+                    return CategoryType.YouthWomen;
+                default:
+                    throw new Exception("Unknown category name: {0}" + displayName);
+            }
+        }
+
+        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, CategoryType category)
         {
             Dictionary<string, double> ranksMap = new Dictionary<string, double>();
             List<HtmlNode> rankNodes = await GetPlayersRankNodesAsync(year, category);
@@ -67,7 +99,7 @@ namespace BeachVolleyball
             return ranksMap;
         }
 
-        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, Category category)
+        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, CategoryType category)
         {
             string rankPageByYear = GetRankingPageUrl(year, category);
             HtmlWeb web = new HtmlWeb();
@@ -80,7 +112,7 @@ namespace BeachVolleyball
             return rankNodeList;
         }
 
-        private static string GetRankingPageUrl(int year, Category category)
+        private static string GetRankingPageUrl(int year, CategoryType category)
         {
             const string RankingWebPageTemplate = "http://www.iva.org.il/Ranking.asp?cYear={0}&cMode=0&GenderId={1}&level_id={2}#";
             int genderId = GetGenderId(category);
@@ -88,33 +120,33 @@ namespace BeachVolleyball
             return string.Format(RankingWebPageTemplate, year, genderId, levelId);
         }
 
-        private static int GetGenderId(Category category)
+        private static int GetGenderId(CategoryType category)
         {
             switch(category)
             {
-                case Category.MenA:
-                case Category.MenB:
-                case Category.YouthMen:
+                case CategoryType.MenA:
+                case CategoryType.MenB:
+                case CategoryType.YouthMen:
                     return 10;
-                case Category.WomenA:
-                case Category.WomenB:
-                case Category.YouthWomen:
+                case CategoryType.WomenA:
+                case CategoryType.WomenB:
+                case CategoryType.YouthWomen:
                     return 11;
                 default: throw new Exception("Unsupported category: " + category);
             }
         }
 
-        private static int GetLevelId(Category category)
+        private static int GetLevelId(CategoryType category)
         {
             switch (category)
             {
-                case Category.MenA:
-                case Category.MenB:
-                case Category.WomenA:
-                case Category.WomenB:
+                case CategoryType.MenA:
+                case CategoryType.MenB:
+                case CategoryType.WomenA:
+                case CategoryType.WomenB:
                     return 1;
-                case Category.YouthMen:
-                case Category.YouthWomen:
+                case CategoryType.YouthMen:
+                case CategoryType.YouthWomen:
                     return 4;
                 default:
                     throw new Exception("Unsupported category: " + category);

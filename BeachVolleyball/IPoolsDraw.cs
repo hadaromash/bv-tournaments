@@ -1,18 +1,16 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="Levels.cs" company="Microsoft">
+// <copyright file="IPoolsDraw.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
 namespace BeachVolleyball
 {
-    public enum Category
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public interface IPoolsDraw
     {
-        MenA,
-        MenB,
-        WomenA,
-        WomenB,
-        YouthMen,
-        YouthWomen
+        Task<List<Pool>> GetPoolsAsync(int tournamentId, int categoryId, string categoryName);
     }
 }
