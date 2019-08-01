@@ -51,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeachVolleyballDb.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="HtmlAgilityPackExtensions.cs" />
     <Compile Include="IBeachVolleyDb.cs" />
+    <Compile Include="IPoolsDraw.cs" />
     <Compile Include="IRanksMap.cs" />
-    <Compile Include="Levels.cs" />
+    <Compile Include="CategoryNames.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Pool.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QualificationMatch.cs" />
     <Compile Include="RanksMap.cs" />
+    <Compile Include="SnakePoolsDraw.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Tournament.cs" />
   </ItemGroup>

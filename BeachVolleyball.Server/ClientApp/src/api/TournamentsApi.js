@@ -1,23 +1,24 @@
 import axios from 'axios';
 
 export default class TournamentApi{
-    constructor(){
-        this.apiUrl = "/tournaments";
-    }
-
     getTournaments = async () => {
-        var result = await axios.get(this.apiUrl);
+        var result = await axios.get("/tournaments");
         return result.data;
     }
 
-    getCategories = async () => {
-        var result = await axios.get("/categories");
+    getCategories = async (tournamentId) => {
+        var result = await axios.get("/categories?tournamentId=" + tournamentId);
         return result.data;
     }
 
     getPools = async (tournament, category) => {
-        const url = this.apiUrl + "/pools?id=" + tournament.tournamentId + "&category=" + category;
-        var result = await axios.get(url);
+        var result = await axios.get("/pools", {
+            params: {
+                tournamentId: tournament.tournamentId,
+                categoryId: category.id,
+                categoryName: category.displayName
+            }
+        });
         return result.data;
     }
 }

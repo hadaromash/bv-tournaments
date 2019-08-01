@@ -11,16 +11,16 @@ namespace BeachVolleyball
         static async Task Main(string[] args)
         {
             IBeachVolleyDb beachVolleyDb = new BeachVolleyballDb();
-            List<Tournament> tournaments = await beachVolleyDb.GetTournaments();
+            List<Tournament> tournaments = await beachVolleyDb.GetTournamentsAsync();
 
             List<CategoryCodes> categoryCodes = new List<CategoryCodes>
             {
-                new CategoryCodes(Category.MenA),
-                new CategoryCodes(Category.MenB),
-                new CategoryCodes(Category.WomenA),
-                new CategoryCodes(Category.WomenB),
-                new CategoryCodes(Category.YouthMen),
-                new CategoryCodes(Category.YouthWomen)
+                new CategoryCodes(CategoryType.MenA),
+                new CategoryCodes(CategoryType.MenB),
+                new CategoryCodes(CategoryType.WomenA),
+                new CategoryCodes(CategoryType.WomenB),
+                new CategoryCodes(CategoryType.YouthMen),
+                new CategoryCodes(CategoryType.YouthWomen)
             };
 
             Tournament tournament = GetTournament(tournaments);
@@ -28,7 +28,6 @@ namespace BeachVolleyball
 
             while (tournament != null && category != null)
             {
-                await tournament.InitPools(category.Category);
                 Debug.WriteLine(tournament);
                 category = GetCategory(categoryCodes);
             }
@@ -73,14 +72,14 @@ namespace BeachVolleyball
         private class CategoryCodes
         {
             private static int nextCode = 1;
-            public CategoryCodes(Category cat)
+            public CategoryCodes(CategoryType cat)
             {
                 this.Category = cat;
                 this.Code = nextCode;
                 nextCode++;
             }
 
-            public Category Category { get; private set; }
+            public CategoryType Category { get; private set; }
             public int Code { get; private set; }
         }
     }

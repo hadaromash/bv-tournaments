@@ -1,12 +1,12 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="Levels.cs" company="Microsoft">
+// <copyright file="CategoryNames.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
 namespace BeachVolleyball
 {
-    public enum Category
+    public enum CategoryType
     {
         MenA,
         MenB,
