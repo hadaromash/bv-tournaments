@@ -33,18 +33,18 @@ const SelectionForm = ({ tournaments, categories, handleSubmit }) => {
   return (
     <form onSubmit={event => handleSubmitInternal(event)}>
       <label>
-        Select tournament:
+        בחר טורניר:
         <select value={tournamentId} onChange={event => setTournamentId(event.target.value)}>
           {toursOptions}
         </select>
       </label>
       <label>
-        Select category:
+        בחר קטגוריה:
         <select value={categoryId} onChange={event => setCategoryId(event.target.value)}>
           {catOptions}
         </select>
       </label>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="פנק אותו!" />
     </form>
   );
 };

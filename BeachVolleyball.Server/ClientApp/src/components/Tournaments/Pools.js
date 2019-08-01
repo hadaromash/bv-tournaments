@@ -9,7 +9,8 @@ const Pools = ({ pools }) => {
 
 const PoolsContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export default Pools;
