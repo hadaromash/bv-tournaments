@@ -15,6 +15,16 @@ namespace BeachVolleyball
 
     public class RanksMap : IRanksMap
     {
+        private enum CategoryType
+        {
+            MenA,
+            MenB,
+            WomenA,
+            WomenB,
+            YouthMen,
+            YouthWomen
+        }
+
         private Dictionary<string, double> ranksMap;
 
         public int Year { get; private set; }
