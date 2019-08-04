@@ -14,10 +14,24 @@ const Pool = ({ number, teams, qualificationMatches }) => {
 
   let qualMatchesTitle = null;
   let qualificationMatchesViews = null;
+  let qualificationTeams = null;
   if (qualificationMatches && qualificationMatches.length > 0) {
     qualMatchesTitle = <QualificationTitle>משחקי מוקדמות:</QualificationTitle>;
     qualificationMatchesViews = qualificationMatches.map(match => (
-      <Match key={match.team1.player1.name + match.team2.player1.name} {...match} />
+      <Match
+        key={match.team1.player1.name + match.team2.player1.name}
+        {...match}
+      />
+    ));
+
+    qualificationTeams = qualificationMatches.map((match, index)=> (
+      <QualificationTeam
+        key={match.team1.player1.name + match.team2.player1.name}
+        row={teams.length * 2 + 2 + 1}
+        teamIndex={teams.length + index}
+      >
+        עולה ממוקדמות
+      </QualificationTeam>
     ));
   }
 
@@ -27,8 +41,9 @@ const Pool = ({ number, teams, qualificationMatches }) => {
         <Title>בית {number}</Title>
         <RankTitle>נק' דירוג</RankTitle>
         <PlayersTitle>קבוצה</PlayersTitle>
-          {teamViews}
-    </PoolTable>
+        {teamViews}
+        {qualificationTeams}
+      </PoolTable>
       {qualMatchesTitle}
       {qualificationMatchesViews}
     </PoolContainer>
@@ -44,17 +59,17 @@ const PoolContainer = styled.div`
 `;
 
 const Title = styled.div`
-    grid-column: 1/span 2;
-    grid-row: 1/2;
+  grid-column: 1 / span 2;
+  grid-row: 1/2;
 
-    align-self: stretch;
-    justify-self: stretch;
+  align-self: stretch;
+  justify-self: stretch;
 
-    background-color: #555;
-    color: #fff;
+  background-color: #555;
+  color: #fff;
 
-    text-align: center;
-`
+  text-align: center;
+`;
 
 const PoolTable = styled.div`
   display: grid;
@@ -73,17 +88,17 @@ const PoolTable = styled.div`
 `;
 
 const TableTitle = styled.p`
-    font-weight: 600;
-    grid-row: 2/3;
-`
+  font-weight: 600;
+  grid-row: 2/3;
+`;
 
 const RankTitle = styled(TableTitle)`
-    grid-column: 1/2;
-`
+  grid-column: 1/2;
+`;
 
 const PlayersTitle = styled(TableTitle)`
-    grid-column: 2/3;
-`
+  grid-column: 2/3;
+`;
 
 const Rank = styled.div`
   grid-column: 1/2;
@@ -93,7 +108,8 @@ const Rank = styled.div`
 const TeamBackground = styled.div`
   grid-column: 1 / span 2;
   grid-row: ${props => props.row} / span 2;
-  background-color: ${props => props.teamIndex % 2 === 0 ? "#f6f5f5" : "#fff"};
+  background-color: ${props =>
+    props.teamIndex % 2 === 0 ? "#f6f5f5" : "#fff"};
   justify-self: stretch;
   align-self: stretch;
 `;
@@ -103,8 +119,12 @@ const Player = styled.div`
   grid-row: ${props => props.row} / span 1;
 `;
 
+const QualificationTeam = styled(TeamBackground)`
+  text-align: right;
+`;
+
 const QualificationTitle = styled.p`
-    margin-bottom: 1rem;
-`
+  margin-bottom: 1rem;
+`;
 
 export default Pool;
