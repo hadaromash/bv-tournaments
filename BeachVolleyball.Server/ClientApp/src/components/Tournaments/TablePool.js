@@ -50,7 +50,7 @@ const Title = styled.div`
     align-self: stretch;
     justify-self: stretch;
 
-    background-color: black;
+    background-color: #555;
     color: #fff;
 
     text-align: center;
