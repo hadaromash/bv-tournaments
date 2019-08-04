@@ -22,7 +22,9 @@ namespace BeachVolleyball
             WomenA,
             WomenB,
             YouthMen,
-            YouthWomen
+            YouthWomen,
+            YouthPlusMen,
+            YouthPlusWomen
         }
 
         private Dictionary<string, double> ranksMap;
@@ -69,6 +71,10 @@ namespace BeachVolleyball
                     return CategoryType.YouthMen;
                 case "נוער בנות":
                     return CategoryType.YouthWomen;
+                case "נערים":
+                    return CategoryType.YouthPlusMen;
+                case "נערות":
+                    return CategoryType.YouthPlusWomen;
                 default:
                     throw new Exception("Unknown category name: {0}" + displayName);
             }
@@ -127,10 +133,12 @@ namespace BeachVolleyball
                 case CategoryType.MenA:
                 case CategoryType.MenB:
                 case CategoryType.YouthMen:
+                case CategoryType.YouthPlusMen:
                     return 10;
                 case CategoryType.WomenA:
                 case CategoryType.WomenB:
                 case CategoryType.YouthWomen:
+                case CategoryType.YouthPlusWomen:
                     return 11;
                 default: throw new Exception("Unsupported category: " + category);
             }
@@ -147,6 +155,8 @@ namespace BeachVolleyball
                     return 1;
                 case CategoryType.YouthMen:
                 case CategoryType.YouthWomen:
+                case CategoryType.YouthPlusMen:
+                case CategoryType.YouthPlusWomen:
                     return 4;
                 default:
                     throw new Exception("Unsupported category: " + category);

@@ -40,14 +40,14 @@ const SelectionForm = ({ tournaments, categories, handleSubmit }) => {
   return (
     <form onSubmit={event => handleSubmitInternal(event)}>
       <FormContainer>
-        <label>בחר טורניר:</label>
+        <label>בחר\י טורניר:</label>
         <Select
           value={tournamentId}
           onChange={event => setTournamentId(event.target.value)}
         >
           {toursOptions}
         </Select>
-        <label>בחר קטגוריה:</label>
+        <label>בחר\י קטגוריה:</label>
         <Select
           value={categoryId}
           onChange={event => setCategoryId(event.target.value)}

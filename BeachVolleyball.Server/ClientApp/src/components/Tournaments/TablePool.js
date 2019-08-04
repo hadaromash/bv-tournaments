@@ -5,10 +5,10 @@ import Match from "./Match";
 const Pool = ({ number, teams, qualificationMatches }) => {
   const teamViews = teams.map((team, index) => (
     <React.Fragment key={team.player1.name + team.player2.name}>
-      <TeamBackground row={index * 2 + 2} teamIndex={index} />
-      <Rank row={index * 2 + 2}>{team.rank}</Rank>
-      <Player row={index * 2 + 2}>{team.player1.name}</Player>
-      <Player row={index * 2 + 3}>{team.player2.name}</Player>
+      <TeamBackground row={index * 2 + 3} teamIndex={index} />
+      <Rank row={index * 2 + 3}>{team.rank}</Rank>
+      <Player row={index * 2 + 3}>{team.player1.name}</Player>
+      <Player row={index * 2 + 4}>{team.player2.name}</Player>
     </React.Fragment>
   ));
 
@@ -23,8 +23,8 @@ const Pool = ({ number, teams, qualificationMatches }) => {
 
   return (
     <PoolContainer>
-      <Title>בית {number}</Title>
       <PoolTable teamsNum={teams.length}>
+        <Title>בית {number}</Title>
         <RankTitle>נק' דירוג</RankTitle>
         <PlayersTitle>קבוצה</PlayersTitle>
           {teamViews}
@@ -43,14 +43,23 @@ const PoolContainer = styled.div`
   margin: 1rem;
 `;
 
-const Title = styled.p`
-    margin-bottom: 1rem;
+const Title = styled.div`
+    grid-column: 1/span 2;
+    grid-row: 1/2;
+
+    align-self: stretch;
+    justify-self: stretch;
+
+    background-color: black;
+    color: #fff;
+
+    text-align: center;
 `
 
 const PoolTable = styled.div`
   display: grid;
   grid-template-columns: 5.5rem 14rem;
-  grid-template-rows: auto repeat(${props => props.teamsNum * 2}, auto);
+  grid-template-rows: auto auto repeat(${props => props.teamsNum * 2}, auto);
 
   justify-items: start;
   align-items: center;
@@ -65,16 +74,15 @@ const PoolTable = styled.div`
 
 const TableTitle = styled.p`
     font-weight: 600;
+    grid-row: 2/3;
 `
 
 const RankTitle = styled(TableTitle)`
     grid-column: 1/2;
-    grid-row: 1/2;
 `
 
 const PlayersTitle = styled(TableTitle)`
     grid-column: 2/3;
-    grid-row: 1/2;
 `
 
 const Rank = styled.div`
