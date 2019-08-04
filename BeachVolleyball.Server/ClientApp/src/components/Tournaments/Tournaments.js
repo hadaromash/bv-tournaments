@@ -61,8 +61,14 @@ export const TournamentSelection = () => {
   }
 
   let pools = null;
+  let noTeams = null;
   if (state.pools) {
-    pools = <Pools pools={state.pools} />;
+    if (state.pools.length > 0) {
+      pools = <Pools pools={state.pools} />;
+    } else {
+      noTeams = <p>אף קבוצה עדיין לא נרשמה לקטגוריה</p>
+    }
+    
   }
 
   let loadingPools = null;
@@ -79,6 +85,7 @@ export const TournamentSelection = () => {
     <TournamentsContainer>
       <SelectionForm {...state} handleSubmit={showPools} />
       {pools}
+      {noTeams}
       {loadingPools}
       {loadingPoolsError}
     </TournamentsContainer>
