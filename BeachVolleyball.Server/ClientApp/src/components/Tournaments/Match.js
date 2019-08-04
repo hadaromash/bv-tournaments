@@ -5,7 +5,7 @@ import Team from "./Team";
 const Match = ({ team1, team2 }) => (
   <MatchContainer>
     <Team {...team1} />
-    <VsText>Vs.</VsText>
+    <VsText>נגד</VsText>
     <Team {...team2} />
   </MatchContainer>
 );
@@ -13,6 +13,11 @@ const Match = ({ team1, team2 }) => (
 const MatchContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+
+  & > * {
+    margin-left: 1rem;
+  }
 `;
 
 const VsText = styled.p`
