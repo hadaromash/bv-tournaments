@@ -78,7 +78,7 @@ namespace Engine.CosmosDb
 
         public async Task<List<Tournament>> GetAllActiveTournamentsAsync()
         {
-            var sqlQueryText = "SELECT * FROM c where c.IsActive == True";
+            var sqlQueryText = "SELECT * FROM c where c.IsActive='True'";
             return await GetTournaments(sqlQueryText);
         }
 
