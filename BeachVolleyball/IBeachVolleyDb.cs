@@ -13,10 +13,10 @@ namespace BeachVolleyball
     {
         Task<List<Tournament>> GetTournamentsAsync();
 
-        Task<List<Category>> GetCategoriesAsync(int tournamentId);
+        Task<List<Category>> GetCategoriesAsync(string tournamentId);
 
-        Task<List<Team>> GetTeamsAsync(int tournamentId, int categoryId, string categoryName);
+        Task<List<Team>> GetTeamsAsync(string tournamentId, int categoryId, string categoryName);
 
-        Task<List<Player>> GetPlayersAsync(int tournamentId, int categoryId, string categoryName);
+        Task<List<Player>> GetPlayersAsync(string tournamentId, int categoryId, string categoryName);
     }
 }

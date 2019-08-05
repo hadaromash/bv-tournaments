@@ -1,16 +1,14 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="IPoolsDraw.cs" company="Microsoft">
+// <copyright file="Gender.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
 namespace BeachVolleyball
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    public interface IPoolsDraw
+    public enum Gender
     {
-        Task<List<Pool>> SetupPoolsAsync(List<Team> teams);
+        Male,
+        Female
     }
 }

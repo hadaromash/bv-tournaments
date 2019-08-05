@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BeachVolleyball\BeachVolleyball.csproj" />
+    <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

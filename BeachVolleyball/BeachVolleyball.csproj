@@ -53,18 +53,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgeGroup.cs" />
     <Compile Include="BeachVolleyballDb.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Gender.cs" />
     <Compile Include="HtmlAgilityPackExtensions.cs" />
     <Compile Include="IBeachVolleyDb.cs" />
     <Compile Include="IPoolsDraw.cs" />
-    <Compile Include="IRanksMap.cs" />
+    <Compile Include="Ranks\IRankDb.cs" />
+    <Compile Include="Ranks\IRanksMap.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Pool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QualificationMatch.cs" />
-    <Compile Include="RanksMap.cs" />
+    <Compile Include="Ranks\RanksMap.cs" />
+    <Compile Include="Ranks\WebCrawlerRankDb.cs" />
     <Compile Include="SnakePoolsDraw.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Tournament.cs" />

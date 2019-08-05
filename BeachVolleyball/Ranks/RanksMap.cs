@@ -15,18 +15,6 @@ namespace BeachVolleyball
 
     public class RanksMap : IRanksMap
     {
-        private enum CategoryType
-        {
-            MenA,
-            MenB,
-            WomenA,
-            WomenB,
-            YouthMen,
-            YouthWomen,
-            YouthPlusMen,
-            YouthPlusWomen
-        }
-
         private Dictionary<string, double> ranksMap;
 
         public int Year { get; private set; }
@@ -37,10 +25,9 @@ namespace BeachVolleyball
             this.ranksMap = ranksMap;
         }
 
-        public static async Task<RanksMap> CreateAsync(int year, string categoryName)
+        public static async Task<RanksMap> CreateAsync(int year, Gender gender, AgeGroup ageGroup)
         {
-            CategoryType category = GetCategoryType(categoryName);
-            var ranksMap = await CreateRanksMapAsync(year, category);
+            var ranksMap = await CreateRanksMapAsync(year, gender, ageGroup);
             return new RanksMap(year, ranksMap);
         }
 
@@ -55,35 +42,10 @@ namespace BeachVolleyball
             return 0;
         }
 
-        private static CategoryType GetCategoryType(string displayName)
-        {
-            switch (displayName)
-            {
-                case "נשים רמה א'":
-                    return CategoryType.WomenA;
-                case "גברים רמה א'":
-                    return CategoryType.MenA;
-                case "גברים רמה ב'":
-                    return CategoryType.MenB;
-                case "נשים רמה ב'":
-                    return CategoryType.WomenB;
-                case "נוער בנים":
-                    return CategoryType.YouthMen;
-                case "נוער בנות":
-                    return CategoryType.YouthWomen;
-                case "נערים":
-                    return CategoryType.YouthPlusMen;
-                case "נערות":
-                    return CategoryType.YouthPlusWomen;
-                default:
-                    throw new Exception("Unknown category name: {0}" + displayName);
-            }
-        }
-
-        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, CategoryType category)
+        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, Gender gender, AgeGroup ageGroup)
         {
             Dictionary<string, double> ranksMap = new Dictionary<string, double>();
-            List<HtmlNode> rankNodes = await GetPlayersRankNodesAsync(year, category);
+            List<HtmlNode> rankNodes = await GetPlayersRankNodesAsync(year, gender, ageGroup);
             foreach (var rankNode in rankNodes)
             {
                 var relevantDescendants = rankNode.Descendants("td").ToList();
@@ -105,9 +67,9 @@ namespace BeachVolleyball
             return ranksMap;
         }
 
-        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, CategoryType category)
+        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, Gender gender, AgeGroup ageGroup)
         {
-            string rankPageByYear = GetRankingPageUrl(year, category);
+            string rankPageByYear = GetRankingPageUrl(year, gender, ageGroup);
             HtmlWeb web = new HtmlWeb();
             HtmlDocument rankingDoc = await web.LoadFromWebAsync(rankPageByYear);
             var rankingTableArea = rankingDoc.GetElementbyId("Ranking");
@@ -118,48 +80,36 @@ namespace BeachVolleyball
             return rankNodeList;
         }
 
-        private static string GetRankingPageUrl(int year, CategoryType category)
+        private static string GetRankingPageUrl(int year, Gender gender, AgeGroup ageGroup)
         {
             const string RankingWebPageTemplate = "http://www.iva.org.il/Ranking.asp?cYear={0}&cMode=0&GenderId={1}&level_id={2}#";
-            int genderId = GetGenderId(category);
-            int levelId = GetLevelId(category);
+            int genderId = GetGenderId(gender);
+            int levelId = GetLevelId(ageGroup);
             return string.Format(RankingWebPageTemplate, year, genderId, levelId);
         }
 
-        private static int GetGenderId(CategoryType category)
+        private static int GetGenderId(Gender gender)
         {
-            switch(category)
+            switch(gender)
             {
-                case CategoryType.MenA:
-                case CategoryType.MenB:
-                case CategoryType.YouthMen:
-                case CategoryType.YouthPlusMen:
+                case Gender.Male:
                     return 10;
-                case CategoryType.WomenA:
-                case CategoryType.WomenB:
-                case CategoryType.YouthWomen:
-                case CategoryType.YouthPlusWomen:
+                case Gender.Female:
                     return 11;
-                default: throw new Exception("Unsupported category: " + category);
+                default: throw new Exception("Unsupported gender: " + gender);
             }
         }
 
-        private static int GetLevelId(CategoryType category)
+        private static int GetLevelId(AgeGroup ageGroup)
         {
-            switch (category)
+            switch (ageGroup)
             {
-                case CategoryType.MenA:
-                case CategoryType.MenB:
-                case CategoryType.WomenA:
-                case CategoryType.WomenB:
+                case AgeGroup.Matures:
                     return 1;
-                case CategoryType.YouthMen:
-                case CategoryType.YouthWomen:
-                case CategoryType.YouthPlusMen:
-                case CategoryType.YouthPlusWomen:
+                case AgeGroup.Youth:
                     return 4;
                 default:
-                    throw new Exception("Unsupported category: " + category);
+                    throw new Exception("Unsupported age group: " + ageGroup);
             }
         }
     }

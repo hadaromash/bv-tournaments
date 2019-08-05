@@ -10,7 +10,7 @@ namespace BeachVolleyball
 {
     public class Tournament
     {
-        public Tournament(int tournamentId, string name, bool isActive, Category[] categories)
+        public Tournament(string tournamentId, string name, bool isActive, Category[] categories)
         {
             this.Id = tournamentId;
             this.Name = name;
@@ -19,11 +19,11 @@ namespace BeachVolleyball
         }
 
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; }
+        public string Id { get; }
 
         public string Name { get; }
 
-        public bool IsActive { get; }
+        public bool IsActive { get; set; }
 
         public Category[] Categories { get; }
 

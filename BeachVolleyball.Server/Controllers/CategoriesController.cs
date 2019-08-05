@@ -14,7 +14,7 @@ namespace BeachVolleyball.Server.Controllers
         }
 
         [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 86400)]
-        public async Task<List<Category>> Index(int tournamentId)
+        public async Task<List<Category>> Index(string tournamentId)
         {
             var categories = await beachVolleyDb.GetCategoriesAsync(tournamentId);
             return categories;

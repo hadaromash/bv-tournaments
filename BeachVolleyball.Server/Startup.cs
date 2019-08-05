@@ -1,3 +1,6 @@
+using BeachVolleyball.Ranks;
+using Engine;
+using Engine.CosmosDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,8 +31,11 @@ namespace BeachVolleyball.Server
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddSingleton<IBeachVolleyDb, BeachVolleyballDb>();
+            services.AddTransient<IBeachVolleyDb, BeachVolleyballDb>();
+            services.AddTransient<ITournamentsService, CosmosDbTournamentsService>();
+            services.AddTransient<IRankDb, WebCrawlerRankDb>();
             services.AddTransient<IPoolsDraw, SnakePoolsDraw>();
+            services.AddTransient<ITournamentsCosmosDbClient, DefaultCosmosDbClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

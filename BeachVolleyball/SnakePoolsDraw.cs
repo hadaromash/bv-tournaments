@@ -6,24 +6,14 @@
 
 namespace BeachVolleyball
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     public class SnakePoolsDraw : IPoolsDraw
     {
-        private readonly IBeachVolleyDb beachVolleyDb;
-
-        public SnakePoolsDraw(IBeachVolleyDb beachVolleyDb)
+        public async Task<List<Pool>> SetupPoolsAsync(List<Team> teams)
         {
-            this.beachVolleyDb = beachVolleyDb;
-        }
-
-        public async Task<List<Pool>> GetPoolsAsync(int tournamentId, int categoryId, string categoryName)
-        {
-            List<Team> teams = await this.beachVolleyDb.GetTeamsAsync(tournamentId, categoryId, categoryName);
-
             if (teams.Count >= 32)
             {
                 return SetPoolsDraw(teams, 8, 4);
