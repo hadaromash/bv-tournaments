@@ -4,23 +4,32 @@
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace BeachVolleyball
 {
     public class Tournament
     {
-        public Tournament(int tournamentId, string name)
+        public Tournament(int tournamentId, string name, bool isActive, Category[] categories)
         {
-            this.TournamentId = tournamentId;
+            this.Id = tournamentId;
             this.Name = name;
+            this.IsActive = isActive;
+            this.Categories = categories;
         }
 
-        public int TournamentId { get; private set; }
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
+
+        public bool IsActive { get; }
+
+        public Category[] Categories { get; }
 
         public override string ToString()
         {
-            return string.Format("Tournament name: {0}, id: {1}", this.Name, this.TournamentId);
+            return string.Format("Tournament name: {0}, id: {1}", this.Name, this.Id);
         }
     }
 }

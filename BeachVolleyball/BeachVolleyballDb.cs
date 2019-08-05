@@ -17,6 +17,13 @@ namespace BeachVolleyball
     {
         private const string IVABaseUrl = "http://www.iva.org.il";
 
+        private readonly IPoolsDraw poolsDraw;
+
+        public BeachVolleyballDb(IPoolsDraw poolsDraw)
+        {
+            this.poolsDraw = poolsDraw;
+        }
+
         public async Task<List<Tournament>> GetTournamentsAsync()
         {
             HtmlWeb web = new HtmlWeb();
@@ -37,7 +44,10 @@ namespace BeachVolleyball
 
                 string name = HttpUtility.HtmlDecode(tourNode.InnerHtml);
 
-                Tournament newTournament = new Tournament(int.Parse(id), name);
+                int intId = int.Parse(id);
+                List<Category> categories = await this.GetCategoriesAsync(intId);
+
+                Tournament newTournament = new Tournament(intId, name, true, categories.ToArray());
                 result.Add(newTournament);
             }
 
@@ -58,7 +68,9 @@ namespace BeachVolleyball
             {
                 string displayName = HttpUtility.HtmlDecode(categoryOption.InnerText).TrimEnd();
                 int categoryId = categoryOption.GetAttributeValue("value", 0);
-                Category newCategory = new Category(displayName, categoryId, tournamentId);
+
+                List<Pool> pools = await this.poolsDraw.GetPoolsAsync(tournamentId, categoryId, displayName);
+                Category newCategory = new Category(displayName, categoryId, pools.ToArray());
                 categories.Add(newCategory);
             }
 

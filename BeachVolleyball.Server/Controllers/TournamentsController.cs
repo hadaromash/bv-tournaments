@@ -19,5 +19,10 @@ namespace BeachVolleyball.Server.Controllers
             var tournaments = await beachVolleyDb.GetTournamentsAsync();
             return tournaments;
         }
+
+        public async Task UpdateAll()
+        {
+
+        }
     }
 }

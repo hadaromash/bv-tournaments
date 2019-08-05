@@ -4,28 +4,21 @@
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
-using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-
 namespace BeachVolleyball
 {
     public class Category
     {
-        public Category(string displayName, int categoryId, int tournamentId)
+        public Category(string displayName, int categoryId, Pool[] pools)
         {
-            DisplayName = displayName;
-            Id = categoryId;
-            TournamentId = tournamentId;
+            this.DisplayName = displayName;
+            this.Id = categoryId;
+            this.Pools = pools;
         }
 
         public string DisplayName { get; }
 
         public int Id { get; }
 
-        public int TournamentId { get; }
+        public Pool[] Pools { get; }
     }
 }
