@@ -19,7 +19,8 @@ namespace BeachVolleyball.Server.Controllers
         [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 1800)]
         public async Task<List<Tournament>> Index()
         {
-            return new List<Tournament>();
+            var tournaments = await this.tournamentsService.GetAllTournamentsAsync();
+            return tournaments;
         }
 
         public async Task UpdateAll()
