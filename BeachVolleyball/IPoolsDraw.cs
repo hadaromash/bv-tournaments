@@ -11,6 +11,6 @@ namespace BeachVolleyball
 
     public interface IPoolsDraw
     {
-        Task<List<Pool>> SetupPoolsAsync(List<Team> teams);
+        List<Pool> SetupPools(List<Team> teams);
     }
 }

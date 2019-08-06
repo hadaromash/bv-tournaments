@@ -8,10 +8,11 @@ namespace Engine.CosmosDb
 {
     using BeachVolleyball;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public interface ITournamentsCosmosDbClient : ICosmosDbClient<Tournament>
     {
-        Task<List<Tournament>> GetAllActiveTournamentsAsync();
+        Task<List<Tournament>> GetAllActiveTournamentsAsync(CancellationToken cancellationToken);
     }
 }

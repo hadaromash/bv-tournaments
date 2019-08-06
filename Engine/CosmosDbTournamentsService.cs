@@ -9,6 +9,7 @@ namespace Engine
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using BeachVolleyball;
     using Engine.CosmosDb;
@@ -24,29 +25,44 @@ namespace Engine
             this.tournamentsCosmosDbClient = tournamentsCosmosDbClient;
         }
 
-        public async Task<List<Tournament>> GetAllTournamentsAsync()
+        public async Task<List<Tournament>> GetAllTournamentsAsync(CancellationToken cancellationToken)
         {
-            await this.tournamentsCosmosDbClient.InitAsync();
-            return await this.tournamentsCosmosDbClient.GetAllActiveTournamentsAsync();
+            await this.tournamentsCosmosDbClient.InitAsync(cancellationToken);
+            return await this.tournamentsCosmosDbClient.GetAllActiveTournamentsAsync(cancellationToken);
         }
 
-        public async Task UpdateTournamentsAsync()
+        public async Task UpdateTournamentsAsync(CancellationToken cancellationToken)
         {
-            List<Tournament> tournamentsFromCrawler = await this.beachVolleyDb.GetTournamentsAsync();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
 
-            await this.tournamentsCosmosDbClient.InitAsync();
-            List<Tournament> tournamentsFromDb = await this.tournamentsCosmosDbClient.GetAllActiveTournamentsAsync();
+            List<Tournament> tournamentsFromCrawler = await this.beachVolleyDb.GetTournamentsAsync(cancellationToken);
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await this.tournamentsCosmosDbClient.InitAsync(cancellationToken);
+            List<Tournament> tournamentsFromDb = await this.tournamentsCosmosDbClient.GetAllActiveTournamentsAsync(cancellationToken);
 
             TournamentComparer comparer = new TournamentComparer();
             IEnumerable<Tournament> onlyInCrawler = tournamentsFromCrawler.Except(tournamentsFromDb, comparer);
             IEnumerable<Tournament> inBoth = tournamentsFromCrawler.Intersect(tournamentsFromDb, comparer);
             IEnumerable<Tournament> onlyInDb = tournamentsFromDb.Except(tournamentsFromCrawler, comparer);
 
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
             foreach(Tournament tour in onlyInCrawler)
             {
                 try
                 {
-                    await this.tournamentsCosmosDbClient.AddItemAsync(tour);
+                    await this.tournamentsCosmosDbClient.AddItemAsync(tour, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -56,21 +72,21 @@ namespace Engine
 
             foreach(Tournament tour in inBoth)
             {
-                await UpdateTournament(tour);
+                await UpdateTournament(tour, cancellationToken);
             }
 
             foreach (Tournament tournament in onlyInDb)
             {
                 tournament.IsActive = false;
-                await UpdateTournament(tournament);
+                await UpdateTournament(tournament, cancellationToken);
             }
         }
 
-        private async Task UpdateTournament(Tournament tournament)
+        private async Task UpdateTournament(Tournament tournament, CancellationToken cancellationToken)
         {
             try
             {
-                await this.tournamentsCosmosDbClient.UpdateItemAsync(tournament);
+                await this.tournamentsCosmosDbClient.UpdateItemAsync(tournament, cancellationToken);
             }
             catch (Exception e)
             {

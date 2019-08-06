@@ -8,11 +8,10 @@ namespace BeachVolleyball
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class SnakePoolsDraw : IPoolsDraw
     {
-        public async Task<List<Pool>> SetupPoolsAsync(List<Team> teams)
+        public List<Pool> SetupPools(List<Team> teams)
         {
             if (teams.Count >= 32)
             {

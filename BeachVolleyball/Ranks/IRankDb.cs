@@ -4,12 +4,13 @@
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BeachVolleyball
 {
     public interface IRankDb
     {
-        Task<IRanksMap> GetRanksMapAsync(int year, Gender gender, AgeGroup ageGroup);
+        Task<IRanksMap> GetRanksMapAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken);
     }
 }

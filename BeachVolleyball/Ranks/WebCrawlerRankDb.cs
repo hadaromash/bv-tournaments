@@ -8,13 +8,14 @@ namespace BeachVolleyball.Ranks
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class WebCrawlerRankDb : IRankDb
     {
         Dictionary<string, IRanksMap> rankMaps = new Dictionary<string, IRanksMap>();
 
-        public async Task<IRanksMap> GetRanksMapAsync(int year, Gender gender, AgeGroup ageGroup)
+        public async Task<IRanksMap> GetRanksMapAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken)
         {
             string key = CreateKey(year, gender, ageGroup);
             if (rankMaps.TryGetValue(key, out IRanksMap value))
@@ -22,7 +23,7 @@ namespace BeachVolleyball.Ranks
                 return value;
             }
 
-            IRanksMap newRankMap = await RanksMap.CreateAsync(year, gender, ageGroup);
+            IRanksMap newRankMap = await RanksMap.CreateAsync(year, gender, ageGroup, cancellationToken);
             rankMaps.Add(key, newRankMap);
             return newRankMap;
         }

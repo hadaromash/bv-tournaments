@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Engine;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +18,11 @@ namespace BeachVolleyball.Server.Controllers
             this.tournamentsService = tournamentsService;
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 1800)]
         public async Task<List<Tournament>> Index()
         {
-            var tournaments = await this.tournamentsService.GetAllTournamentsAsync();
+            CancellationTokenSource cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            var tournaments = await this.tournamentsService.GetAllTournamentsAsync(cancellationToken.Token);
             return tournaments;
-        }
-
-        public async Task UpdateAll()
-        {
-            await this.tournamentsService.UpdateTournamentsAsync();
         }
     }
 }

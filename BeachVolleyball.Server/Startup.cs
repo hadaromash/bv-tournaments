@@ -1,4 +1,5 @@
 using BeachVolleyball.Ranks;
+using BeachVolleyball.Server.Engine;
 using Engine;
 using Engine.CosmosDb;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,7 @@ namespace BeachVolleyball.Server
             services.AddTransient<IRankDb, WebCrawlerRankDb>();
             services.AddTransient<IPoolsDraw, SnakePoolsDraw>();
             services.AddTransient<ITournamentsCosmosDbClient, DefaultCosmosDbClient>();
+            services.AddHostedService<TournamentsUpdateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

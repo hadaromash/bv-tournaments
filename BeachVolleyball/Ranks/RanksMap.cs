@@ -10,6 +10,7 @@ namespace BeachVolleyball
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
 
@@ -25,9 +26,9 @@ namespace BeachVolleyball
             this.ranksMap = ranksMap;
         }
 
-        public static async Task<RanksMap> CreateAsync(int year, Gender gender, AgeGroup ageGroup)
+        public static async Task<RanksMap> CreateAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken)
         {
-            var ranksMap = await CreateRanksMapAsync(year, gender, ageGroup);
+            var ranksMap = await CreateRanksMapAsync(year, gender, ageGroup, cancellationToken);
             return new RanksMap(year, ranksMap);
         }
 
@@ -42,10 +43,10 @@ namespace BeachVolleyball
             return 0;
         }
 
-        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, Gender gender, AgeGroup ageGroup)
+        private static async Task<Dictionary<string, double>> CreateRanksMapAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken)
         {
             Dictionary<string, double> ranksMap = new Dictionary<string, double>();
-            List<HtmlNode> rankNodes = await GetPlayersRankNodesAsync(year, gender, ageGroup);
+            List<HtmlNode> rankNodes = await GetPlayersRankNodesAsync(year, gender, ageGroup, cancellationToken);
             foreach (var rankNode in rankNodes)
             {
                 var relevantDescendants = rankNode.Descendants("td").ToList();
@@ -67,11 +68,11 @@ namespace BeachVolleyball
             return ranksMap;
         }
 
-        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, Gender gender, AgeGroup ageGroup)
+        private static async Task<List<HtmlNode>> GetPlayersRankNodesAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken)
         {
             string rankPageByYear = GetRankingPageUrl(year, gender, ageGroup);
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument rankingDoc = await web.LoadFromWebAsync(rankPageByYear);
+            HtmlDocument rankingDoc = await web.LoadFromWebAsync(rankPageByYear, cancellationToken);
             var rankingTableArea = rankingDoc.GetElementbyId("Ranking");
             var rankingTable = rankingTableArea.Descendants("table").First();
             IEnumerable<HtmlNode> playerRankNodes = rankingTable.Descendants("tr");

@@ -8,12 +8,13 @@ namespace Engine
 {
     using BeachVolleyball;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public interface ITournamentsService
     {
-        Task UpdateTournamentsAsync();
+        Task UpdateTournamentsAsync(CancellationToken cancellationToken);
 
-        Task<List<Tournament>> GetAllTournamentsAsync();
+        Task<List<Tournament>> GetAllTournamentsAsync(CancellationToken cancellationToken);
     }
 }

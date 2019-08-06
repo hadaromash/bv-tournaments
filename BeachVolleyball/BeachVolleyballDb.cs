@@ -10,6 +10,7 @@ namespace BeachVolleyball
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
 
@@ -26,11 +27,11 @@ namespace BeachVolleyball
             this.rankDb = rankDb;
         }
 
-        public async Task<List<Tournament>> GetTournamentsAsync()
+        public async Task<List<Tournament>> GetTournamentsAsync(CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string mainPage = IVABaseUrl + "/default.asp";
-            HtmlDocument mainDoc = await web.LoadFromWebAsync(mainPage);
+            HtmlDocument mainDoc = await web.LoadFromWebAsync(mainPage, cancellationToken);
             HtmlNode mainTournamentsNode = mainDoc.GetElementbyId("turnir");
             IEnumerable<HtmlNode> tournamentNodes = mainTournamentsNode.Descendants("a")
                 .Where(node => 
@@ -46,7 +47,7 @@ namespace BeachVolleyball
 
                 string name = HttpUtility.HtmlDecode(tourNode.InnerHtml);
 
-                List<Category> categories = await this.GetCategoriesAsync(id);
+                List<Category> categories = await this.GetCategoriesAsync(id, cancellationToken);
 
                 Tournament newTournament = new Tournament(id, name, true, categories.ToArray());
                 result.Add(newTournament);
@@ -55,11 +56,11 @@ namespace BeachVolleyball
             return result;
         }
 
-        public async Task<List<Category>> GetCategoriesAsync(string tournamentId)
+        public async Task<List<Category>> GetCategoriesAsync(string tournamentId, CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string tournamentPage = GetTournamentPageUrl(tournamentId);
-            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentPage);
+            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentPage, cancellationToken);
 
             HtmlNode categoriesSelector = tournamentDoc.GetElementbyId("SubZoneId");
             IEnumerable<HtmlNode> categoriesOptions = categoriesSelector.Descendants("option").Where(option => option.GetAttributeValue("value", 0) != 0);
@@ -70,8 +71,8 @@ namespace BeachVolleyball
                 string displayName = HttpUtility.HtmlDecode(categoryOption.InnerText).TrimEnd();
                 int categoryId = categoryOption.GetAttributeValue("value", 0);
 
-                List<Team> teams = await this.GetTeamsAsync(tournamentId, categoryId, displayName);
-                List<Pool> pools = await this.poolsDraw.SetupPoolsAsync(teams);
+                List<Team> teams = await this.GetTeamsAsync(tournamentId, categoryId, displayName, cancellationToken);
+                List<Pool> pools = this.poolsDraw.SetupPools(teams);
                 Category newCategory = new Category(displayName, categoryId, pools.ToArray());
                 categories.Add(newCategory);
             }
@@ -84,9 +85,9 @@ namespace BeachVolleyball
             return string.Format("{0}/Competition.asp?ZoneId={1}", IVABaseUrl, tournamentId);
         }
 
-        public async Task<List<Team>> GetTeamsAsync(string tournamentId, int categoryId, string categoryName)
+        public async Task<List<Team>> GetTeamsAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken)
         {
-            List<Player> players = await this.GetPlayersAsync(tournamentId, categoryId, categoryName);
+            List<Player> players = await this.GetPlayersAsync(tournamentId, categoryId, categoryName, cancellationToken);
 
             List<Team> teams = new List<Team>();
             for (int i = 0; i < players.Count / 2; i++)
@@ -100,9 +101,9 @@ namespace BeachVolleyball
             return teams;
         }
 
-        public async Task<List<Player>> GetPlayersAsync(string tournamentId, int categoryId, string categoryName)
+        public async Task<List<Player>> GetPlayersAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken)
         {
-            List<HtmlNode> htmlPlayers = await GetTournamentPlayersNodes(categoryId, tournamentId);
+            List<HtmlNode> htmlPlayers = await GetTournamentPlayersNodes(categoryId, tournamentId, cancellationToken);
 
             IRanksMap ranks = null;
             IRanksMap previousYearRanks = null;
@@ -111,8 +112,8 @@ namespace BeachVolleyball
                 Gender gender = GetGender(categoryName);
                 AgeGroup ageGroup = GetAgeGroup(categoryName);
 
-                ranks = await this.rankDb.GetRanksMapAsync(DateTime.UtcNow.Year, gender, ageGroup);
-                previousYearRanks = await this.rankDb.GetRanksMapAsync(2018, gender, ageGroup);
+                ranks = await this.rankDb.GetRanksMapAsync(DateTime.UtcNow.Year, gender, ageGroup, cancellationToken);
+                previousYearRanks = await this.rankDb.GetRanksMapAsync(2018, gender, ageGroup, cancellationToken);
             }
 
             List<Player> players = new List<Player>();
@@ -195,11 +196,11 @@ namespace BeachVolleyball
             }
         }
 
-        private static async Task<List<HtmlNode>> GetTournamentPlayersNodes(int categoryId, string tournamentId)
+        private static async Task<List<HtmlNode>> GetTournamentPlayersNodes(int categoryId, string tournamentId, CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string tournamentWebPage = GetTournamentPageUrl(categoryId, tournamentId);
-            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentWebPage);
+            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentWebPage, cancellationToken);
             HtmlNode playersTable = tournamentDoc.GetElementbyId("TeamRoster");
             List<HtmlNode> htmlPlayers = playersTable.Descendants("tr").ToList();
             htmlPlayers.RemoveRange(0, 1);
