@@ -26,6 +26,7 @@ namespace Engine
 
         public async Task<List<Tournament>> GetAllTournamentsAsync()
         {
+            await this.tournamentsCosmosDbClient.InitAsync();
             return await this.tournamentsCosmosDbClient.GetAllActiveTournamentsAsync();
         }
 

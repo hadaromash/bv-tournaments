@@ -10,6 +10,7 @@ namespace Engine.CosmosDb
     using Microsoft.Azure.Cosmos;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -78,8 +79,9 @@ namespace Engine.CosmosDb
 
         public async Task<List<Tournament>> GetAllActiveTournamentsAsync()
         {
-            var sqlQueryText = "SELECT * FROM c where c.IsActive='True'";
-            return await GetTournaments(sqlQueryText);
+            var sqlQueryText = "SELECT * FROM c";
+            List<Tournament> tournaments = await GetTournaments(sqlQueryText);
+            return tournaments.Where(t => t.IsActive).ToList();
         }
 
         private async Task<List<Tournament>> GetTournaments(string sqlQueryText)
