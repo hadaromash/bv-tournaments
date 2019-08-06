@@ -8,7 +8,7 @@ const { Provider } = TournamentsContext;
 const TournamentsProvider = ({ children }) => {
   const [tournamentsState, setTournamentsState] = useState({
       tournaments: [],
-      loading: false,
+      loading: true,
       error: false
   });
 
@@ -19,7 +19,7 @@ const TournamentsProvider = ({ children }) => {
 
       try {
         var tours = await api.getTournaments();
-        console.log("Succesfully received " + tournamentsState.tournaments.length + " tournaments");
+        console.log("Succesfully received " + tours.length + " tournaments");
         setTournamentsState({
           tournaments: tours,
           loading: false,
