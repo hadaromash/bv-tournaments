@@ -10,9 +10,9 @@ namespace BeachVolleyball
 {
     public class Tournament
     {
-        public Tournament(string tournamentId, string name, bool isActive, Category[] categories)
+        public Tournament(string id, string name, bool isActive, Category[] categories)
         {
-            this.Id = tournamentId;
+            this.Id = id;
             this.Name = name;
             this.IsActive = isActive;
             this.Categories = categories;

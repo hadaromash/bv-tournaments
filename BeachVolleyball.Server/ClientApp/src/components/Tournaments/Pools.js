@@ -3,8 +3,13 @@ import styled from "styled-components";
 import Pool from "./TablePool";
 
 const Pools = ({ pools }) => {
-  const poolsViews = pools.map(pool => <Pool key={pool.number} {...pool} />);
-  return <PoolsContainer>{poolsViews}</PoolsContainer>;
+  if (pools.length > 0) {
+    const poolsViews = pools.map(pool => <Pool key={pool.number} {...pool} />);
+    return <PoolsContainer>{poolsViews}</PoolsContainer>;
+  }
+  else {
+    return <PoolsContainer>כמה עצוב, אף זוג עדיין לא נרשם לקטגוריה זו</PoolsContainer>;
+  }
 };
 
 const PoolsContainer = styled.div`
@@ -13,6 +18,7 @@ const PoolsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: start;
 
+  margin: 30px;
 `;
 
 export default Pools;

@@ -19,7 +19,7 @@ const TournamentsProvider = ({ children }) => {
 
       try {
         var tours = await api.getTournaments();
-        console.log("Succesfully received " + tournamentsState.length + " tournaments");
+        console.log("Succesfully received " + tournamentsState.tournaments.length + " tournaments");
         setTournamentsState({
           tournaments: tours,
           loading: false,

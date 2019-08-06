@@ -11,7 +11,7 @@ const NavMenu = () => {
   let tournamentsDropdown = null;
   if (tournamentsState.tournaments.length > 0) {
     const tournamentNavs = tournamentsState.tournaments.map(tournament => (
-      <NavDropdown.Item href={"#" + tournament.id}>
+      <NavDropdown.Item key={tournament.id} href={"/tournaments/" + tournament.id}>
         {tournament.name}
       </NavDropdown.Item>
     ));
@@ -25,7 +25,7 @@ const NavMenu = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#">הסבב הישראלי בכדורעף חופים</Navbar.Brand>
+      <Navbar.Brand href="/">הסבב הישראלי בכדורעף חופים</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">{tournamentsDropdown}</Nav>

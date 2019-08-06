@@ -3,8 +3,8 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Pools from './Pools';
 
-const Tournament = ({ name, categories }) => {
-  const categoryTabs = categories.map((category, index) => (
+const Tournament = ({ categories }) => {
+  const categoryTabs = categories.map((category) => (
     <Tab
       key={category.displayName}
       title={category.displayName}
