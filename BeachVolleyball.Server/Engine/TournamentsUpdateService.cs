@@ -9,7 +9,7 @@ namespace BeachVolleyball.Server.Engine
     public class TournamentsUpdateService : BackgroundService
     {
         private readonly ITournamentsService tournamentsService;
-        private readonly TimeSpan UpdateTime = TimeSpan.FromSeconds(30);
+        private readonly TimeSpan UpdateTime = TimeSpan.FromMinutes(30);
 
         public TournamentsUpdateService(ITournamentsService tournamentsService)
         {
@@ -24,7 +24,14 @@ namespace BeachVolleyball.Server.Engine
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await this.tournamentsService.UpdateTournamentsAsync(stoppingToken);
+                try
+                {
+                    await this.tournamentsService.UpdateTournamentsAsync(stoppingToken);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to update tournaments in the background.");
+                }
 
                 await Task.Delay(UpdateTime, stoppingToken);
             }
