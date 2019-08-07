@@ -33,7 +33,7 @@ namespace Engine.CosmosDb
         {
             AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
             KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-            var secret = await keyVaultClient.GetSecretAsync("https://bvtourskeyvault.vault.azure.net/secrets/TournamentsCosmosDbPrimaryKey/a823492918b4489c9094e03500dac470", cancellationToken);
+            var secret = await keyVaultClient.GetSecretAsync("https://bvtourskeyvault.vault.azure.net/secrets/TournamentsCosmosDbPrimaryKey", cancellationToken);
             string primaryKey = secret.Value; 
 
 
