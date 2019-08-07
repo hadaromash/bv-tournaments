@@ -30,7 +30,7 @@ namespace BeachVolleyball.Server.Engine
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Failed to update tournaments in the background.");
+                    Console.WriteLine("Failed to update tournaments in the background. " + e.Message);
                 }
 
                 await Task.Delay(UpdateTime, stoppingToken);

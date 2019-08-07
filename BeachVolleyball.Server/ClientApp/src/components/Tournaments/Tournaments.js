@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { TournamentsContext } from '../../Tournaments.context';
 import Tournament from './Tournament';
 import { Redirect } from 'react-router';
+import Spinner from "react-bootstrap/Spinner";
+import styled from 'styled-components';
 
 const Tournaments = ({match}) => {
     const { tournamentsState } = useContext(TournamentsContext);
@@ -9,6 +11,15 @@ const Tournaments = ({match}) => {
 
     function findTournament(tour) {
         return tour.id === match.params.id;
+    }
+
+    if (tournamentsState.loading) {
+        return (
+            <LoadingContainer>
+                <p>טוען מידע...</p>
+                <Spinner animation="border" variant="info" />
+            </LoadingContainer>
+        );
     }
 
     const currentTour = tournamentsState.tournaments.find(findTournament);
@@ -20,3 +31,11 @@ const Tournaments = ({match}) => {
 }
 
 export default Tournaments;
+
+const LoadingContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    & > * {
+        margin-left: 2rem;
+    }
+`

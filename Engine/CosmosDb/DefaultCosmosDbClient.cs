@@ -8,6 +8,8 @@ namespace Engine.CosmosDb
 {
     using BeachVolleyball;
     using Microsoft.Azure.Cosmos;
+    using Microsoft.Azure.KeyVault;
+    using Microsoft.Azure.Services.AppAuthentication;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,23 +22,23 @@ namespace Engine.CosmosDb
         /// The Azure Cosmos DB endpoint for running this GetStarted sample.
         private readonly string EndpointUrl = @"https://bv-tournaments.documents.azure.com:443/";
 
-        /// The primary key for the Azure DocumentDB account.
-        private readonly string PrimaryKey = "WiXLjpp2pY5HanpRuifCjpJo1KnTrUFlE1lVpfsOFC3s5dqWuC8MvpVDyjp5FZ9tE29YMPpqBultIiAHgpCeXg==";
-
-        private readonly CosmosClient cosmosClient;
+        private CosmosClient cosmosClient;
         private Database database;
         private Container container;
 
         private string databaseId = "TournamentsDatabase";
         private string containerId = "TournamentsContainer";
 
-        public DefaultCosmosDbClient()
-        {
-            this.cosmosClient = new CosmosClient(EndpointUrl, PrimaryKey);
-        }
-
         public async Task InitAsync(CancellationToken cancellationToken)
         {
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+            var secret = await keyVaultClient.GetSecretAsync("https://bvtourskeyvault.vault.azure.net/secrets/TournamentsCosmosDbPrimaryKey/a823492918b4489c9094e03500dac470", cancellationToken);
+            string primaryKey = secret.Value; 
+
+
+            this.cosmosClient = new CosmosClient(EndpointUrl, primaryKey);
+
             await this.CreateDatabaseAsync(cancellationToken);
             await this.CreateContainerAsync(cancellationToken);
         }
