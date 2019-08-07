@@ -17,7 +17,7 @@ namespace Engine.CosmosDb
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class DefaultCosmosDbClient : ITournamentsCosmosDbClient
+    public class TournamentCosmosDbClient : ITournamentsCosmosDbClient
     {
         /// The Azure Cosmos DB endpoint for running this GetStarted sample.
         private readonly string EndpointUrl = @"https://bv-tournaments.documents.azure.com:443/";

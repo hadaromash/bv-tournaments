@@ -36,7 +36,7 @@ namespace BeachVolleyball.Server
             services.AddTransient<ITournamentsService, CosmosDbTournamentsService>();
             services.AddTransient<IRankDb, WebCrawlerRankDb>();
             services.AddTransient<IPoolsDraw, SnakePoolsDraw>();
-            services.AddTransient<ITournamentsCosmosDbClient, DefaultCosmosDbClient>();
+            services.AddTransient<ITournamentsCosmosDbClient, TournamentCosmosDbClient>();
             services.AddHostedService<TournamentsUpdateService>();
         }
 
