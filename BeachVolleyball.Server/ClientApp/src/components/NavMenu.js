@@ -51,7 +51,7 @@ const NavMenu = () => {
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
-            הסבב הישראלי בכדורעף חופים
+            הסבב הישראלי<br/>בכדורעף חופים
           </NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse

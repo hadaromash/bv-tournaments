@@ -22,7 +22,7 @@ const Home = () => {
   );
 };
 
-const Loading = () => <Spinner animation="grow" variant="info" />;
+const Loading = () => <div><p>טוען טורנירים...</p><Spinner animation="border" variant="info" /></div>;
 
 const TournamentsNav = () => {
   const { tournamentsState } = useContext(TournamentsContext);
