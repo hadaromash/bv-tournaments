@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Pool from "./TablePool";
+import Pool from "./Pool";
 
 const Pools = ({ pools }) => {
   if (pools.length > 0) {
