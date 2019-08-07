@@ -13,7 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 import { TournamentsContext } from "../Tournaments.context";
-import TournamentLink from "./Tournaments/TourLink";
+import { TournamentLink } from "./Tournaments/TourLink";
 
 const NavMenu = () => {
   const [state, setState] = useState({ collapsed: true });
@@ -51,7 +51,7 @@ const NavMenu = () => {
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
-            הסבב הישראלי בכדורעף חופים
+            הסבב הישראלי<br/>בכדורעף חופים
           </NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse

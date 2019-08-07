@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Pool from "./TablePool";
+import Pool from "./Pool";
+import media from "../../utils/Media";
 
 const Pools = ({ pools }) => {
   if (pools.length > 0) {
@@ -16,9 +17,14 @@ const PoolsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: center;
 
   margin: 30px;
+  ${media.desktop`
+    & > * {
+      margin: 0rem 3rem;
+    }
+  `}
 `;
 
 export default Pools;
