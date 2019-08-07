@@ -6,8 +6,6 @@ import {
   NavbarBrand,
   NavbarToggler,
   DropdownItem,
-  NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu
@@ -15,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 import { TournamentsContext } from "../Tournaments.context";
+import TournamentLink from "./Tournaments/TourLink";
 
 const NavMenu = () => {
   const [state, setState] = useState({ collapsed: true });
@@ -30,15 +29,7 @@ const NavMenu = () => {
   if (tournamentsState.tournaments.length > 0) {
     const tournamentLinks = tournamentsState.tournaments.map(tour => (
       <DropdownItem key={tour.id}>
-        <NavItem>
-          <NavLink
-            tag={Link}
-            className="text-dark"
-            to={"/tournaments/" + tour.id}
-          >
-            {tour.name}
-          </NavLink>
-        </NavItem>
+        <TournamentLink {...tour} />
       </DropdownItem>
     ));
 

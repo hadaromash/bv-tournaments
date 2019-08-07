@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { TournamentsContext } from "../Tournaments.context";
 import styled from "styled-components";
-import { Nav, NavItem, NavLink } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Nav, NavItem } from "reactstrap";
 import Spinner from "react-bootstrap/Spinner";
+import TournamentLink from "./Tournaments/TourLink";
 
 const Home = () => {
   const { tournamentsState } = useContext(TournamentsContext);
@@ -34,11 +34,7 @@ const TournamentsNav = () => {
     "Creating tournament links: " + tournamentsState.tournaments.length
   );
   const tourLinks = tournamentsState.tournaments.map(tour => (
-    <NavItem key={tour.id}>
-      <NavLink tag={Link} to={"/tournaments/" + tour.id}>
-        {tour.name}
-      </NavLink>
-    </NavItem>
+    <TournamentLink {...tour} key={tour.id}/> 
   ));
 
   return <Nav vertical>{tourLinks}</Nav>;
