@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { TournamentSelection } from './components/Tournaments/Tournaments';
+import React from "react";
+import { Route } from "react-router";
+import { Layout } from "./components/Layout";
+import Tournaments from "./components/Tournaments/Tournaments";
+import Home from "./components/Home";
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = () => {
+  return (
+    <Layout>
+      <Route exact path="/" component={Home} />
+      <Route path="/tournaments/:id" component={Tournaments} />
+    </Layout>
+  );
+};
 
-  render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={TournamentSelection} />
-      </Layout>
-    );
-  }
-}
+export default App;

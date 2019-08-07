@@ -1,16 +1,16 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="IPoolsDraw.cs" company="Microsoft">
+// <copyright file="IRankDb.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace BeachVolleyball
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    public interface IPoolsDraw
+    public interface IRankDb
     {
-        List<Pool> SetupPools(List<Team> teams);
+        Task<IRanksMap> GetRanksMapAsync(int year, Gender gender, AgeGroup ageGroup, CancellationToken cancellationToken);
     }
 }

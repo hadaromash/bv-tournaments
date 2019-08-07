@@ -10,6 +10,7 @@ namespace BeachVolleyball
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
 
@@ -17,11 +18,20 @@ namespace BeachVolleyball
     {
         private const string IVABaseUrl = "http://www.iva.org.il";
 
-        public async Task<List<Tournament>> GetTournamentsAsync()
+        private readonly IPoolsDraw poolsDraw;
+        private readonly IRankDb rankDb;
+
+        public BeachVolleyballDb(IPoolsDraw poolsDraw, IRankDb rankDb)
+        {
+            this.poolsDraw = poolsDraw;
+            this.rankDb = rankDb;
+        }
+
+        public async Task<List<Tournament>> GetTournamentsAsync(CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string mainPage = IVABaseUrl + "/default.asp";
-            HtmlDocument mainDoc = await web.LoadFromWebAsync(mainPage);
+            HtmlDocument mainDoc = await web.LoadFromWebAsync(mainPage, cancellationToken);
             HtmlNode mainTournamentsNode = mainDoc.GetElementbyId("turnir");
             IEnumerable<HtmlNode> tournamentNodes = mainTournamentsNode.Descendants("a")
                 .Where(node => 
@@ -37,18 +47,20 @@ namespace BeachVolleyball
 
                 string name = HttpUtility.HtmlDecode(tourNode.InnerHtml);
 
-                Tournament newTournament = new Tournament(int.Parse(id), name);
+                List<Category> categories = await this.GetCategoriesAsync(id, cancellationToken);
+
+                Tournament newTournament = new Tournament(id, name, true, categories.ToArray());
                 result.Add(newTournament);
             }
 
             return result;
         }
 
-        public async Task<List<Category>> GetCategoriesAsync(int tournamentId)
+        public async Task<List<Category>> GetCategoriesAsync(string tournamentId, CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string tournamentPage = GetTournamentPageUrl(tournamentId);
-            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentPage);
+            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentPage, cancellationToken);
 
             HtmlNode categoriesSelector = tournamentDoc.GetElementbyId("SubZoneId");
             IEnumerable<HtmlNode> categoriesOptions = categoriesSelector.Descendants("option").Where(option => option.GetAttributeValue("value", 0) != 0);
@@ -58,21 +70,24 @@ namespace BeachVolleyball
             {
                 string displayName = HttpUtility.HtmlDecode(categoryOption.InnerText).TrimEnd();
                 int categoryId = categoryOption.GetAttributeValue("value", 0);
-                Category newCategory = new Category(displayName, categoryId, tournamentId);
+
+                List<Team> teams = await this.GetTeamsAsync(tournamentId, categoryId, displayName, cancellationToken);
+                List<Pool> pools = this.poolsDraw.SetupPools(teams);
+                Category newCategory = new Category(displayName, categoryId, pools.ToArray());
                 categories.Add(newCategory);
             }
 
             return categories;
         }
 
-        private static string GetTournamentPageUrl(int tournamentId)
+        private static string GetTournamentPageUrl(string tournamentId)
         {
             return string.Format("{0}/Competition.asp?ZoneId={1}", IVABaseUrl, tournamentId);
         }
 
-        public async Task<List<Team>> GetTeamsAsync(int tournamentId, int categoryId, string categoryName)
+        public async Task<List<Team>> GetTeamsAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken)
         {
-            List<Player> players = await this.GetPlayersAsync(tournamentId, categoryId, categoryName);
+            List<Player> players = await this.GetPlayersAsync(tournamentId, categoryId, categoryName, cancellationToken);
 
             List<Team> teams = new List<Team>();
             for (int i = 0; i < players.Count / 2; i++)
@@ -86,12 +101,20 @@ namespace BeachVolleyball
             return teams;
         }
 
-        public async Task<List<Player>> GetPlayersAsync(int tournamentId, int categoryId, string categoryName)
+        public async Task<List<Player>> GetPlayersAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken)
         {
-            List<HtmlNode> htmlPlayers = await GetTournamentPlayersNodes(categoryId, tournamentId);
+            List<HtmlNode> htmlPlayers = await GetTournamentPlayersNodes(categoryId, tournamentId, cancellationToken);
 
-            IRanksMap ranks = await RanksMap.CreateAsync(2019, categoryName);
-            IRanksMap previousYearRanks = await RanksMap.CreateAsync(2018, categoryName);
+            IRanksMap ranks = null;
+            IRanksMap previousYearRanks = null;
+            if (htmlPlayers.Any())
+            {
+                Gender gender = GetGender(categoryName);
+                AgeGroup ageGroup = GetAgeGroup(categoryName);
+
+                ranks = await this.rankDb.GetRanksMapAsync(DateTime.UtcNow.Year, gender, ageGroup, cancellationToken);
+                previousYearRanks = await this.rankDb.GetRanksMapAsync(2018, gender, ageGroup, cancellationToken);
+            }
 
             List<Player> players = new List<Player>();
             for (int i = 0; i < htmlPlayers.Count; i++)
@@ -123,18 +146,68 @@ namespace BeachVolleyball
             return players;
         }
 
-        private static async Task<List<HtmlNode>> GetTournamentPlayersNodes(int categoryId, int tournamentId)
+        private static Gender GetGender(string categoryDisplayName)
+        {
+            switch (categoryDisplayName)
+            {
+                case "נשים רמה א'":
+                    return Gender.Female;
+                case "גברים רמה א'":
+                    return Gender.Male;
+                case "גברים רמה ב'":
+                    return Gender.Male;
+                case "נשים רמה ב'":
+                    return Gender.Female;
+                case "נוער בנים":
+                    return Gender.Male;
+                case "נוער בנות":
+                    return Gender.Female;
+                case "נערים":
+                    return Gender.Male;
+                case "נערות":
+                    return Gender.Female;
+                default:
+                    throw new Exception("Unknown category name: {0}" + categoryDisplayName);
+            }
+        }
+
+        private static AgeGroup GetAgeGroup(string categoryDisplayName)
+        {
+            switch (categoryDisplayName)
+            {
+                case "נשים רמה א'":
+                    return AgeGroup.Matures;
+                case "גברים רמה א'":
+                    return AgeGroup.Matures;
+                case "גברים רמה ב'":
+                    return AgeGroup.Matures;
+                case "נשים רמה ב'":
+                    return AgeGroup.Matures;
+                case "נוער בנים":
+                    return AgeGroup.Youth;
+                case "נוער בנות":
+                    return AgeGroup.Youth;
+                case "נערים":
+                    return AgeGroup.Youth;
+                case "נערות":
+                    return AgeGroup.Youth;
+                default:
+                    throw new Exception("Unknown category name: {0}" + categoryDisplayName);
+            }
+        }
+
+        private static async Task<List<HtmlNode>> GetTournamentPlayersNodes(int categoryId, string tournamentId, CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
             string tournamentWebPage = GetTournamentPageUrl(categoryId, tournamentId);
-            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentWebPage);
+            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentWebPage, cancellationToken);
             HtmlNode playersTable = tournamentDoc.GetElementbyId("TeamRoster");
             List<HtmlNode> htmlPlayers = playersTable.Descendants("tr").ToList();
             htmlPlayers.RemoveRange(0, 1);
             return htmlPlayers;
         }
 
-        private static string GetTournamentPageUrl(int categoryId, int tournamentId)
+        private static string GetTournamentPageUrl(int categoryId, string tournamentId)
         {
             return string.Format("{0}/Competition.asp?SubZoneId={1}&ZoneId={2}", IVABaseUrl, categoryId, tournamentId);
         }

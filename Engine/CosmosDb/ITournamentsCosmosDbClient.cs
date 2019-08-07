@@ -1,16 +1,18 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="IPoolsDraw.cs" company="Microsoft">
+// <copyright file="ITournamentsCosmosDbClient.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
-namespace BeachVolleyball
+namespace Engine.CosmosDb
 {
+    using BeachVolleyball;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
-    public interface IPoolsDraw
+    public interface ITournamentsCosmosDbClient : ICosmosDbClient<Tournament>
     {
-        List<Pool> SetupPools(List<Team> teams);
+        Task<List<Tournament>> GetAllActiveTournamentsAsync(CancellationToken cancellationToken);
     }
 }

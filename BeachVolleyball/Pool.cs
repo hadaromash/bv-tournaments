@@ -19,13 +19,13 @@ namespace BeachVolleyball
             this.QualificationMatches = new List<QualificationMatch>();
         }
 
-        public int Number { get; private set; }
+        public int Number { get; }
 
         public int TeamsNumber { get; }
 
-        public List<Team> Teams { get; private set; }
+        public List<Team> Teams { get; }
 
-        public List<QualificationMatch> QualificationMatches { get; private set; }
+        public List<QualificationMatch> QualificationMatches { get; }
 
         public override string ToString()
         {

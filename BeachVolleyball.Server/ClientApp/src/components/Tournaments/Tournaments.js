@@ -1,120 +1,41 @@
-import React, { useEffect, useState } from "react";
-import TournamentApi from "../../api/TournamentsApi";
-import SelectionForm from "./SelectionForm";
-import Pools from "./Pools";
-import styled from "styled-components";
-import { Spinner } from 'reactstrap';
+import React, { useContext } from 'react';
+import { TournamentsContext } from '../../Tournaments.context';
+import Tournament from './Tournament';
+import { Redirect } from 'react-router';
+import Spinner from "react-bootstrap/Spinner";
+import styled from 'styled-components';
 
-export const TournamentSelection = () => {
-  var initialState = {
-    tournaments: null,
-    categories: null,
-    pools: null,
-    loadingPools: false,
-    loadingPoolsError: false
-  };
-  const [state, setState] = useState(initialState);
+const Tournaments = ({match}) => {
+    const { tournamentsState } = useContext(TournamentsContext);
+    console.log("Showing tournament of id: " + match.params.id);
 
-  const showPools = async values => {
-    setState({
-      ...state,
-      pools: null,
-      loadingPools: true,
-      loadingPoolsError: false
-    });
-
-    var api = new TournamentApi();
-    try {
-      const pools = await api.getPools(values.tournament, values.category);
-      setState({
-        ...state,
-        pools: pools,
-        loadingPools: false,
-        loadingPoolsError: false
-      });
-    } catch (error) {
-      console.log("Failed to get pools");
-      setState({
-        ...state,
-        loadingPools: false,
-        loadingPoolsError: true
-      });
+    function findTournament(tour) {
+        return tour.id === match.params.id;
     }
-  };
 
-  useEffect(() => {
-    const setTours = async () => {
-      var api = new TournamentApi();
-      var tours = await api.getTournaments();
-      var categories = await api.getCategories(tours[0].tournamentId);
-      setState({
-        tournaments: tours,
-        categories: categories
-      });
-    };
+    if (tournamentsState.loading) {
+        return (
+            <LoadingContainer>
+                <p>טוען מידע...</p>
+                <Spinner animation="border" variant="info" />
+            </LoadingContainer>
+        );
+    }
 
-    setTours();
-  }, []);
-
-  if (!state.tournaments || !state.categories) {
-    return <div />;
-  }
-
-  let pools = null;
-  let noTeams = null;
-  if (state.pools) {
-    if (state.pools.length > 0) {
-      pools = <Pools pools={state.pools} />;
-    } else {
-      noTeams = <p>אף קבוצה עדיין לא נרשמה לקטגוריה</p>
+    const currentTour = tournamentsState.tournaments.find(findTournament);
+    if (currentTour) {
+        return (<Tournament {...currentTour} />)
     }
     
-  }
+    return (<Redirect to="/" />)
+}
 
-  let loadingPools = null;
-  if (state.loadingPools) {
-    loadingPools = <Loading/>;
-  }
-
-  let loadingPoolsError = null;
-  if (state.loadingPoolsError) {
-    loadingPoolsError = <p>אוף! לא הצלחתי למשוך את המידע מהשרת :(</p>;
-  }
-
-  return (
-    <TournamentsContainer>
-      <SelectionForm {...state} handleSubmit={showPools} />
-      {pools}
-      {noTeams}
-      {loadingPools}
-      {loadingPoolsError}
-    </TournamentsContainer>
-  );
-};
-
-const TournamentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-
-  & > * {
-    margin-bottom: 2rem;
-  }
-`;
-
-const Loading = () => (
-  <LoadingContainer>
-    <Spinner type="grow" color="primary" />
-    <Spinner type="grow" color="secondary" />
-    <Spinner type="grow" color="success" />
-    <Spinner type="grow" color="danger" />
-    <Spinner type="grow" color="warning" />
-    <Spinner type="grow" color="info" />
-    <Spinner type="grow" color="dark" />
-  </LoadingContainer>
-);
+export default Tournaments;
 
 const LoadingContainer = styled.div`
-  align-self: center;
-  justify-self: center;
+    display: flex;
+    flex-direction: row;
+    & > * {
+        margin-left: 2rem;
+    }
 `

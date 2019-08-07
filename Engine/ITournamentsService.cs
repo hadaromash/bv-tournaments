@@ -1,16 +1,20 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
-// <copyright file="IPoolsDraw.cs" company="Microsoft">
+// <copyright file="ITournamentsService.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //---------------------------------------------------------------------------------------------------------------------
 
-namespace BeachVolleyball
+namespace Engine
 {
+    using BeachVolleyball;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
-    public interface IPoolsDraw
+    public interface ITournamentsService
     {
-        List<Pool> SetupPools(List<Team> teams);
+        Task UpdateTournamentsAsync(CancellationToken cancellationToken);
+
+        Task<List<Tournament>> GetAllTournamentsAsync(CancellationToken cancellationToken);
     }
 }

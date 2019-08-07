@@ -17,13 +17,13 @@ namespace BeachVolleyball
             this.PreviousYearRank = player1.PreviousYearRank + player2.PreviousYearRank;
         }
 
-        public Player Player1 { get; private set; }
+        public Player Player1 { get; }
 
-        public Player Player2 { get; private set; }
+        public Player Player2 { get; }
 
-        public double Rank { get; private set; }
+        public double Rank { get; }
 
-        public double PreviousYearRank { get; private set; }
+        public double PreviousYearRank { get; }
 
         public override string ToString()
         {
