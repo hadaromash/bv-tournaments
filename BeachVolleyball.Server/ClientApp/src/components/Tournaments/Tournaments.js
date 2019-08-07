@@ -24,7 +24,7 @@ const Tournaments = ({match}) => {
 
     const currentTour = tournamentsState.tournaments.find(findTournament);
     if (currentTour) {
-        return (<Tournament {...currentTour} />)
+        return (<Tournament {...currentTour} match={match}/>)
     }
     
     return (<Redirect to="/" />)

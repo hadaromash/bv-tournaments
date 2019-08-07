@@ -18,6 +18,7 @@ namespace BeachVolleyball.Server.Controllers
             this.tournamentsService = tournamentsService;
         }
 
+        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 1800)]
         public async Task<List<Tournament>> Index()
         {
             CancellationTokenSource cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(20));

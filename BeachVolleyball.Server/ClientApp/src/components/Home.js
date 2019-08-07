@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { TournamentsContext } from "../Tournaments.context";
 import styled from "styled-components";
-import { Nav, NavItem } from "reactstrap";
+import { Nav } from "reactstrap";
 import Spinner from "react-bootstrap/Spinner";
-import TournamentLink from "./Tournaments/TourLink";
+import { TournamentLink } from "./Tournaments/TourLink";
 
 const Home = () => {
   const { tournamentsState } = useContext(TournamentsContext);

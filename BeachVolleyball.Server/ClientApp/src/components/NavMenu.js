@@ -13,7 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 import { TournamentsContext } from "../Tournaments.context";
-import TournamentLink from "./Tournaments/TourLink";
+import { TournamentLink } from "./Tournaments/TourLink";
 
 const NavMenu = () => {
   const [state, setState] = useState({ collapsed: true });

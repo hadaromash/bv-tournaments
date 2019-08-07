@@ -71,9 +71,4 @@ const PoolContainer = styled.div`
   margin: 0.5rem;
 `;
 
-const PoolTitle = styled.p`
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-`;
-
 export default Pool;
