@@ -7,9 +7,11 @@
 namespace BeachVolleyball
 {
     using HtmlAgilityPack;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
@@ -210,6 +212,40 @@ namespace BeachVolleyball
         private static string GetTournamentPageUrl(int categoryId, string tournamentId)
         {
             return string.Format("{0}/Competition.asp?SubZoneId={1}&ZoneId={2}", IVABaseUrl, categoryId, tournamentId);
+        }
+
+        public async Task<IvaPlayer> GetIvaPlayerAsync(string playerId)
+        {
+            HttpClient httpClient = new HttpClient();
+            string url = string.Format("{0}/json_player_data.asp?PlayerId={1}", IVABaseUrl, playerId);
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            var players = JsonConvert.DeserializeObject<List<IvaPlayer>>(content);
+            IvaPlayer player = players.First();
+
+            const string inlineLinkPrefix = "../";
+            bool shouldAddIva = false;
+            string newLink = player.pic_profile_web;
+            while (newLink.StartsWith(inlineLinkPrefix))
+            {
+                newLink = newLink.Substring(inlineLinkPrefix.Length);
+                shouldAddIva = true;
+            }
+
+            if (shouldAddIva)
+            {
+                if (!newLink.StartsWith("/"))
+                {
+                    newLink = newLink.Insert(0, "/");
+                }
+
+                newLink = newLink.Insert(0, IVABaseUrl);
+                player.pic_profile_web = newLink;
+            }
+
+            return player;
         }
     }
 }

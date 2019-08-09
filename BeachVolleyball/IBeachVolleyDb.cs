@@ -19,5 +19,7 @@ namespace BeachVolleyball
         Task<List<Team>> GetTeamsAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken);
 
         Task<List<Player>> GetPlayersAsync(string tournamentId, int categoryId, string categoryName, CancellationToken cancellationToken);
+
+        Task<IvaPlayer> GetIvaPlayerAsync(string playerId);
     }
 }
