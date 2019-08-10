@@ -11,7 +11,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
     return (
       <React.Fragment>
         <div ref={playerRef}>
-          <a onClick={() => setCardOpen(!isCardOpen)}>{props.name}</a>
+          <PlayerLink onClick={() => setCardOpen(!isCardOpen)}>{props.name}</PlayerLink>
         </div>
         {isCardOpen && (
           <Callout
@@ -102,5 +102,9 @@ const PoolContainer = styled.div`
 
   margin: 0.5rem;
 `;
+
+const PlayerLink = styled.p`
+  cursor: pointer;
+`
 
 export default Pool;

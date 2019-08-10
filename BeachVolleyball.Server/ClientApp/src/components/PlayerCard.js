@@ -27,7 +27,7 @@ const PlayerCard = ({
     }, [])
 
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "12rem" }}>
       <Card.Img variant="top" src={photoUrl} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
