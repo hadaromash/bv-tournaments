@@ -14,6 +14,7 @@ const Logo = () => (
 export default Logo;
 
 const Container = styled.div`
+  margin-top: 2rem;
   align-self: center;
   width: 200px;
   height: 200px;

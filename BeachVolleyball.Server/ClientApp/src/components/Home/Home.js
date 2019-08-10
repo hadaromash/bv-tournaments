@@ -80,9 +80,11 @@ const HomeContainer = styled.div`
   align-items: start;
 
   margin-top: 2rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 
   & > * {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -96,9 +98,5 @@ const Banner = styled.img`
 
   ${Media.tablet`
     max-width: 70%;
-  `}
-
-  ${Media.desktop`
-    max-width: 100%;
   `}
 `;
