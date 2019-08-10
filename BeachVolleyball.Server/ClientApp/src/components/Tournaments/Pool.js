@@ -70,7 +70,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ backgroundColor: "#555", color: "#fff", textAlign: "center"}} colSpan="3">
+            <th style={{ backgroundColor: "#007bff", color: "#fff", textAlign: "center"}} colSpan="3">
               בית {number}
             </th>
           </tr>
