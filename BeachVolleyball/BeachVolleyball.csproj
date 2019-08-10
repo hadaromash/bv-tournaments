@@ -60,6 +60,7 @@
     <Compile Include="HtmlAgilityPackExtensions.cs" />
     <Compile Include="IBeachVolleyDb.cs" />
     <Compile Include="IPoolsDraw.cs" />
+    <Compile Include="IvaPlayer.cs" />
     <Compile Include="Ranks\IRankDb.cs" />
     <Compile Include="Ranks\IRanksMap.cs" />
     <Compile Include="Match.cs" />
