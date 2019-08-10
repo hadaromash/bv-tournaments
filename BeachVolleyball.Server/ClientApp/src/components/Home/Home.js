@@ -40,7 +40,7 @@ const Intro = () => (
     <br />
     <br />
     רוצים לשלוח פידבק, הצעה או סתם מילה טובה?{" "}
-    <a href="mailto:hadarom13@gmail.com">שלחו מייל</a>.
+    שלחו <a target="_blank" rel="noopener noreferrer" href="https://wa.me/972523065991">וואטסאפ</a> או <a target="_blank" rel="noopener noreferrer" href="mailto:hadarom13@gmail.com">אימייל</a>.
   </p>
 );
 
