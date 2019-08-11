@@ -18,7 +18,7 @@ AppInsights.trackPageView(window.location.pathname);
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
 const rootElement = document.getElementById("root");
 
-const unlisten = history.listen((location, action) => {
+history.listen((location, action) => {
   AppInsights.trackPageView(window.location.pathname);
 });
 
