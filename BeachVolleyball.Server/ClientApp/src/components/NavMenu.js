@@ -35,7 +35,7 @@ const NavMenu = () => {
 
     tournamentsMenu = (
       <UncontrolledDropdown nav inNavbar>
-        <DropdownToggle nav caret>
+        <DropdownToggle nav>
         &nbsp;טורנירים&nbsp;
         </DropdownToggle>
         <DropdownMenu>{tournamentLinks}</DropdownMenu>
@@ -46,21 +46,22 @@ const NavMenu = () => {
   return (
     <header>
       <Navbar
-        className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-        light
+        className="border-bottom box-shadow mb-3"
+        dark expand="sm"
+        style={{backgroundColor: '#FF8000'}}
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
             הסבב הישראלי<br/>בכדורעף חופים
           </NavbarBrand>
-          <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+      { /*   <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse
             className="d-sm-inline-flex flex-sm-row-reverse"
             isOpen={!state.collapsed}
             navbar
           >
             <ul className="navbar-nav flex-grow">{tournamentsMenu}</ul>
-          </Collapse>
+          </Collapse> */}
         </Container>
       </Navbar>
     </header>

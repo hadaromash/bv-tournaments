@@ -22,7 +22,7 @@ const Tournament = (props) => {
   ));
 
   return (
-    <Tabs activeKey={props.match.params.categoryId} onSelect={k => handleTabChange(k)}>
+    <Tabs variant="pills" activeKey={props.match.params.categoryId} onSelect={k => handleTabChange(k)}>
       {categoryTabs}
     </Tabs>
   );
