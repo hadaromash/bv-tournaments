@@ -9,7 +9,7 @@ const Pools = ({ pools }) => {
     return <PoolsContainer>{poolsViews}</PoolsContainer>;
   }
   else {
-    return <PoolsContainer>כמה עצוב, אף זוג עדיין לא נרשם לקטגוריה זו</PoolsContainer>;
+    return <PoolsContainer><p>כמה עצוב, אף זוג עדיין לא נרשם לקטגוריה זו <span role="img" aria-label="sad emoji" style={{margin: "0px"}}>&#128577;</span></p></PoolsContainer>;
   }
 };
 
