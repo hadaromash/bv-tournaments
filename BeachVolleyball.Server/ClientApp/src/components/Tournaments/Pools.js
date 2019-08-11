@@ -2,16 +2,42 @@ import React from "react";
 import styled from "styled-components";
 import Pool from "./Pool";
 import media from "../../utils/Media";
+import Share from "../Whatsapp/WhatsappShare";
+import WALogo from "../Whatsapp/logo.png";
 
 const Pools = ({ pools, teamsNumber }) => {
   if (pools.length > 0) {
     const poolsViews = pools.map(pool => <Pool key={pool.number} {...pool} />);
-    return <div><CategoryTitle>מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}</CategoryTitle><PoolsContainer>{poolsViews}</PoolsContainer></div>;
-  }
-  else {
-    return <PoolsContainer><p>כמה עצוב, אף זוג עדיין לא נרשם לקטגוריה זו <span role="img" aria-label="sad emoji" style={{margin: "0px"}}>&#128577;</span></p></PoolsContainer>;
+    return (
+      <CategoryContainer>
+        <p>
+          מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}
+        </p>
+        <Share text={window.location.href}><p>שתפו בוואטסאפ <img src={WALogo} height="24px" width="auto" alt="Whatsapp icon"/></p></Share>
+        <PoolsContainer>{poolsViews}</PoolsContainer>
+      </CategoryContainer>
+    );
+  } else {
+    return (
+      <PoolsContainer>
+        <p>
+          כמה עצוב, אף זוג עדיין לא נרשם לקטגוריה זו{" "}
+          <span role="img" aria-label="sad emoji" style={{ margin: "0px" }}>
+            &#128577;
+          </span>
+        </p>
+      </PoolsContainer>
+    );
   }
 };
+
+const CategoryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > * {
+    margin-top: 1rem;
+  }
+`
 
 const PoolsContainer = styled.div`
   display: flex;
@@ -25,10 +51,6 @@ const PoolsContainer = styled.div`
       margin: 0rem 3rem;
     }
   `}
-`;
-
-const CategoryTitle = styled.p`
-  margin: 1rem;
 `;
 
 export default Pools;
