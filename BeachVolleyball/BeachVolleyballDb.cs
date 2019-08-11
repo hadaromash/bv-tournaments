@@ -75,7 +75,7 @@ namespace BeachVolleyball
 
                 List<Team> teams = await this.GetTeamsAsync(tournamentId, categoryId, displayName, cancellationToken);
                 List<Pool> pools = this.poolsDraw.SetupPools(teams);
-                Category newCategory = new Category(displayName, categoryId, pools.ToArray());
+                Category newCategory = new Category(displayName, categoryId, pools.ToArray(), teams.Count);
                 categories.Add(newCategory);
             }
 
