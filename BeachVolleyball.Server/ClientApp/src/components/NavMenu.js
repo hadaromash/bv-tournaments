@@ -47,12 +47,12 @@ const NavMenu = () => {
     <header>
       <Navbar
         className="border-bottom box-shadow mb-3"
-        dark expand="sm"
-        style={{backgroundColor: '#4646FA'}}
+        light expand="sm"
+        style={{backgroundColor: '#e2edf4'}}
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
-            הסבב הישראלי<br/>בכדורעף חופים
+            הסבב הישראלי בכדורעף חופים
           </NavbarBrand>
       { /*   <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse
