@@ -10,10 +10,18 @@ const Pools = ({ pools, teamsNumber }) => {
     const poolsViews = pools.map(pool => <Pool key={pool.number} {...pool} />);
     return (
       <CategoryContainer>
-        <p>
-          מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}
-        </p>
-        <Share text={window.location.href}><p>שתפו בוואטסאפ <img src={WALogo} height="24px" width="auto" alt="Whatsapp icon"/></p></Share>
+        <p>מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}</p>
+        <div>
+          <Share text={window.location.href}>
+              שתפו בוואטסאפ{" "}
+              <img
+                src={WALogo}
+                height="24px"
+                width="auto"
+                alt="Whatsapp icon"
+              />
+          </Share>
+        </div>
         <PoolsContainer>{poolsViews}</PoolsContainer>
       </CategoryContainer>
     );
@@ -37,7 +45,7 @@ const CategoryContainer = styled.div`
   & > * {
     margin-top: 1rem;
   }
-`
+`;
 
 const PoolsContainer = styled.div`
   display: flex;
