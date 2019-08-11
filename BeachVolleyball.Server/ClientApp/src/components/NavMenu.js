@@ -48,7 +48,7 @@ const NavMenu = () => {
       <Navbar
         className="border-bottom box-shadow mb-3"
         dark expand="sm"
-        style={{backgroundColor: '#FF8000'}}
+        style={{backgroundColor: '#4646FA'}}
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
