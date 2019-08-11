@@ -1,31 +1,39 @@
 import React from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import Pools from './Pools';
-import history from '../../History';
+import Pools from "./Pools";
+import history from "../../History";
 import { createTournamentPath } from "./TourLink";
+import styled from "styled-components";
 
-const Tournament = (props) => {
-
-  const handleTabChange = (key) => {
+const Tournament = props => {
+  const handleTabChange = key => {
     history.push(createTournamentPath(props.id, key));
-  }
+  };
 
-  const categoryTabs = props.categories.map((category) => (
-    <Tab
-      key={category.id}
-      title={category.displayName}
-      eventKey={category.id}
-    >
-        <Pools {...category}/>
+  const categoryTabs = props.categories.map(category => (
+    <Tab key={category.id} title={category.displayName} eventKey={category.id}>
+      <Pools {...category} />
     </Tab>
   ));
 
   return (
-    <Tabs variant="pills" activeKey={props.match.params.categoryId} onSelect={k => handleTabChange(k)}>
-      {categoryTabs}
-    </Tabs>
+    <div>
+      <Title>{props.name}</Title>
+      <Tabs
+        variant="pills"
+        activeKey={props.match.params.categoryId}
+        onSelect={k => handleTabChange(k)}
+      >
+        {categoryTabs}
+      </Tabs>
+    </div>
   );
 };
 
 export default Tournament;
+
+const Title = styled.p`
+  font-weight: 600;
+  margin: 2rem 0rem;
+`;
