@@ -67,7 +67,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
 
   return (
     <PoolContainer>
-      <Table striped bordered hover>
+      <StyledTable striped bordered hover size="sm">
         <thead>
           <tr>
             <th style={{ backgroundColor: "#007bff", color: "#fff", textAlign: "center"}} colSpan="3">
@@ -76,7 +76,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
           </tr>
           <tr>
             <th>#</th>
-            <th>קבוצה</th>
+            <th style={{minWidth: "120px"}}>קבוצה</th>
             <th>נק' דירוג</th>
           </tr>
         </thead>
@@ -84,7 +84,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
           {teamViews}
           {qualificationMatchesViews}
         </tbody>
-      </Table>
+      </StyledTable>
     </PoolContainer>
   );
 };
@@ -103,8 +103,13 @@ const PoolContainer = styled.div`
   margin: 0.5rem;
 `;
 
+const StyledTable = styled(Table)`
+  min-width: 230px;
+  max-width: 90%;
+`
+
 const PlayerLink = styled.p`
   cursor: pointer;
-`
+`;
 
 export default Pool;
