@@ -11,7 +11,7 @@ const NavMenu = () => {
   return (
     <header>
       <Navbar
-        className="border-bottom box-shadow mb-3"
+        className="border-bottom box-shadow"
         dark expand="sm"
         style={{backgroundColor: '#09058D'}}
       >

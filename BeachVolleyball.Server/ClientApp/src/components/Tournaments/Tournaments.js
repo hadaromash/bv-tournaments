@@ -33,6 +33,8 @@ const Tournaments = ({match}) => {
 export default Tournaments;
 
 const LoadingContainer = styled.div`
+    margin-top: 2rem;
+
     display: flex;
     flex-direction: row;
     & > * {
