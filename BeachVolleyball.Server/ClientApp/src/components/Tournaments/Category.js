@@ -7,7 +7,7 @@ import WALogo from "../Whatsapp/logo.png";
 import { AppInsights } from "applicationinsights-js";
 import NewTabLink from "../NewTabLink";
 
-const Pools = ({ pools, teamsNumber, displayName, webPage }) => {
+const Category = ({ pools, teamsNumber, displayName, webPage }) => {
   const LogShareEvent = useCallback(() => {
     console.log("Logging share event");
     AppInsights.trackEvent("CategoryWhatsappShare", {
@@ -20,7 +20,7 @@ const Pools = ({ pools, teamsNumber, displayName, webPage }) => {
   return (
     <CategoryContainer>
       <p>מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}</p>
-      <NewTabLink href={webPage}>דף הקטגוריה באתר איגוד הכדורעף</NewTabLink>
+      <NewTabLink href={webPage + "#ranking"}>דף הקטגוריה באתר איגוד הכדורעף</NewTabLink>
       <div>
         <Share text={window.location.href} handleClick={LogShareEvent}>
           שתפו בוואטסאפ{" "}
@@ -54,4 +54,4 @@ const PoolsContainer = styled.div`
   `}
 `;
 
-export default Pools;
+export default Category;
