@@ -5,6 +5,7 @@ import Pools from "./Pools";
 import history from "../../History";
 import { createTournamentPath } from "./TourLink";
 import styled from "styled-components";
+import NewTabLink from "../NewTabLink";
 
 const Tournament = props => {
   const handleTabChange = key => {
@@ -19,7 +20,7 @@ const Tournament = props => {
 
   return (
     <div>
-      <Title>{props.name}</Title>
+      <Title>{props.name} - <NewTabLink href={props.webPage}>דף הטורניר באתר איגוד הכדורעף</NewTabLink></Title>
       <Tabs
         variant="pills"
         activeKey={props.match.params.categoryId}
