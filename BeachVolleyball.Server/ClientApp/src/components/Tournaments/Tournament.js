@@ -1,7 +1,7 @@
 import React from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import Pools from "./Pools";
+import Category from "./Category";
 import history from "../../History";
 import { createTournamentPath } from "./TourLink";
 import styled from "styled-components";
@@ -14,7 +14,7 @@ const Tournament = props => {
 
   const categoryTabs = props.categories.map(category => (
     <Tab key={category.id} title={category.displayName} eventKey={category.id}>
-      <Pools {...category} />
+      <Category {...category} />
     </Tab>
   ));
 
