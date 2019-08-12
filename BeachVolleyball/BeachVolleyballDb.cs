@@ -48,10 +48,11 @@ namespace BeachVolleyball
                 string id = href.Substring(equalsIndex + 1);
 
                 string name = HttpUtility.HtmlDecode(tourNode.InnerHtml);
+                string tournamentLink = GetTournamentPageUrl(id);
 
                 List<Category> categories = await this.GetCategoriesAsync(id, cancellationToken);
 
-                Tournament newTournament = new Tournament(id, name, true, categories.ToArray());
+                Tournament newTournament = new Tournament(id, name, true, categories.ToArray(), tournamentLink);
                 result.Add(newTournament);
             }
 
@@ -72,10 +73,11 @@ namespace BeachVolleyball
             {
                 string displayName = HttpUtility.HtmlDecode(categoryOption.InnerText).TrimEnd();
                 int categoryId = categoryOption.GetAttributeValue("value", 0);
+                string webPage = GetCategoryPageUrl(categoryId, tournamentId);
 
                 List<Team> teams = await this.GetTeamsAsync(tournamentId, categoryId, displayName, cancellationToken);
                 List<Pool> pools = this.poolsDraw.SetupPools(teams);
-                Category newCategory = new Category(displayName, categoryId, pools.ToArray(), teams.Count);
+                Category newCategory = new Category(displayName, categoryId, pools.ToArray(), teams.Count, webPage);
                 categories.Add(newCategory);
             }
 
@@ -201,15 +203,15 @@ namespace BeachVolleyball
         private static async Task<List<HtmlNode>> GetTournamentPlayersNodes(int categoryId, string tournamentId, CancellationToken cancellationToken)
         {
             HtmlWeb web = new HtmlWeb();
-            string tournamentWebPage = GetTournamentPageUrl(categoryId, tournamentId);
-            HtmlDocument tournamentDoc = await web.LoadFromWebAsync(tournamentWebPage, cancellationToken);
-            HtmlNode playersTable = tournamentDoc.GetElementbyId("TeamRoster");
+            string categoryPageUrl = GetCategoryPageUrl(categoryId, tournamentId);
+            HtmlDocument categoryDoc = await web.LoadFromWebAsync(categoryPageUrl, cancellationToken);
+            HtmlNode playersTable = categoryDoc.GetElementbyId("TeamRoster");
             List<HtmlNode> htmlPlayers = playersTable.Descendants("tr").ToList();
             htmlPlayers.RemoveRange(0, 1);
             return htmlPlayers;
         }
 
-        private static string GetTournamentPageUrl(int categoryId, string tournamentId)
+        private static string GetCategoryPageUrl(int categoryId, string tournamentId)
         {
             return string.Format("{0}/Competition.asp?SubZoneId={1}&ZoneId={2}", IVABaseUrl, categoryId, tournamentId);
         }

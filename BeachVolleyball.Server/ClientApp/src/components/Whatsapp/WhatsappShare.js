@@ -1,4 +1,5 @@
 import React from "react";
+import NewTabLink from "../NewTabLink";
 
 const Share = ({ number, text, children, handleClick }) => {
   var href = "https://wa.me/";
@@ -10,9 +11,9 @@ const Share = ({ number, text, children, handleClick }) => {
     href += "?text=" + encodeURI(text);
   }
   return (
-    <a target="_blank" rel="noopener noreferrer" href={href} onClick={handleClick}>
+    <NewTabLink href={href} onClick={handleClick}>
       {children}
-    </a>
+    </NewTabLink>
   );
 };
 

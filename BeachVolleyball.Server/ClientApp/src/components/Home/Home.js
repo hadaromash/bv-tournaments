@@ -8,6 +8,7 @@ import Logo from "./Logo";
 import Madbiron from "./madbiron-banner.png";
 import Media from "../../utils/Media";
 import Share from "../Whatsapp/WhatsappShare";
+import NewTabLink from "../NewTabLink";
 
 const Home = () => {
   const { tournamentsState } = useContext(TournamentsContext);
@@ -40,7 +41,7 @@ const Intro = () => (
     <br />
     <br />
     רוצים לשלוח פידבק, הצעה או סתם מילה טובה?{" "}
-    שלחו <Share number="972523065991">וואטסאפ</Share> או <a target="_blank" rel="noopener noreferrer" href="mailto:hadarom13@gmail.com">אימייל</a>.
+    שלחו <Share number="972523065991">וואטסאפ</Share> או <a href="mailto:hadarom13@gmail.com">אימייל</a>.
   </p>
 );
 

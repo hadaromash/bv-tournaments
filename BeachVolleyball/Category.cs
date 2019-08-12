@@ -8,12 +8,13 @@ namespace BeachVolleyball
 {
     public class Category
     {
-        public Category(string displayName, int id, Pool[] pools, int teamsNumber)
+        public Category(string displayName, int id, Pool[] pools, int teamsNumber, string webPage)
         {
             this.DisplayName = displayName;
             this.Id = id;
             this.Pools = pools;
             this.TeamsNumber = teamsNumber;
+            WebPage = webPage;
         }
 
         public string DisplayName { get; }
@@ -23,5 +24,7 @@ namespace BeachVolleyball
         public Pool[] Pools { get; }
 
         public int TeamsNumber { get; }
+
+        public string WebPage { get; }
     }
 }

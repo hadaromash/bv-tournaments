@@ -67,7 +67,7 @@ const Pool = ({ number, teams, qualificationMatches }) => {
 
   return (
     <PoolContainer>
-      <StyledTable striped bordered hover size="sm">
+      <StyledTable striped bordered hover size="sm" className="shadow-sm">
         <thead>
           <tr>
             <th style={{ backgroundColor: "#007bff", color: "#fff", textAlign: "center"}} colSpan="3">
@@ -106,7 +106,7 @@ const PoolContainer = styled.div`
 const StyledTable = styled(Table)`
   min-width: 230px;
   max-width: 90%;
-`
+`;
 
 const PlayerLink = styled.p`
   cursor: pointer;
