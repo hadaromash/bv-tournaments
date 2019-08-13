@@ -6,7 +6,6 @@ import history from "../../History";
 import { createTournamentPath } from "./TourLink";
 import styled from "styled-components";
 import NewTabLink from "../NewTabLink";
-import { Container } from "reactstrap";
 
 const Tournament = props => {
   const handleTabChange = key => {

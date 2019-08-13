@@ -8,7 +8,6 @@ import Logo from "./Logo";
 import Madbiron from "./madbiron-banner.png";
 import Media from "../../utils/Media";
 import Share from "../Whatsapp/WhatsappShare";
-import NewTabLink from "../NewTabLink";
 
 const Home = () => {
   const { tournamentsState } = useContext(TournamentsContext);
