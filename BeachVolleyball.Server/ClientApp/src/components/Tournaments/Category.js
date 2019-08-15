@@ -20,7 +20,7 @@ const Category = ({ pools, teamsNumber, displayName, webPage }) => {
   return (
     <CategoryContainer>
       <p>מספר הקבוצות הרשומות בקטגוריה: {teamsNumber}</p>
-      <NewTabLink href={webPage + "#ranking"}>דף הקטגוריה באתר איגוד הכדורעף</NewTabLink>
+      <div><NewTabLink href={webPage + "#ranking"}>דף הקטגוריה באתר איגוד הכדורעף</NewTabLink></div>
       <div>
         <Share text={window.location.href} handleClick={LogShareEvent}>
           שתפו בוואטסאפ{" "}
