@@ -6,6 +6,7 @@ import history from "../../History";
 import { createTournamentPath } from "./TourLink";
 import styled from "styled-components";
 import NewTabLink from "../NewTabLink";
+import { Container } from "reactstrap";
 
 const Tournament = props => {
   const handleTabChange = key => {
@@ -22,19 +23,22 @@ const Tournament = props => {
     <div>
       <TitleSection>
         <Title>
-          {props.name}<br/>
+          {props.name}
+          <br />
           <NewTabLink href={props.webPage}>
             דף הטורניר באתר איגוד הכדורעף
           </NewTabLink>
         </Title>
       </TitleSection>
-      <Tabs
-        variant="pills"
-        activeKey={props.match.params.categoryId}
-        onSelect={k => handleTabChange(k)}
-      >
-        {categoryTabs}
-      </Tabs>
+      <Container>
+        <Tabs
+          variant="pills"
+          activeKey={props.match.params.categoryId}
+          onSelect={k => handleTabChange(k)}
+        >
+          {categoryTabs}
+        </Tabs>
+      </Container>
     </div>
   );
 };
@@ -49,11 +53,6 @@ const Title = styled.p`
 
 const TitleSection = styled.section`
   background-color: rgba(0, 0, 0, 0.05);
-
-  width: 100vw;
-  position: relative;
-  margin-right: -50vw;
-  right: 50%;
-
+  width: 100%;
   margin-bottom: 1rem;
 `;

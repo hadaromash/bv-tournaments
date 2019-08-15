@@ -8,39 +8,44 @@ import Logo from "./Logo";
 import Madbiron from "./madbiron-banner.png";
 import Media from "../../utils/Media";
 import Share from "../Whatsapp/WhatsappShare";
+import { Container } from "reactstrap";
 
 const Home = () => {
   const { tournamentsState } = useContext(TournamentsContext);
   return (
-    <HomeContainer>
-      <Logo />
-      <Intro />
-      {!tournamentsState.loading && !tournamentsState.error && (
-        <TournamentsNav />
-      )}
-      {tournamentsState.loading && <Loading />}
-      {tournamentsState.error && (
-        <p>אוף! לא הצלחתי למשוך את המידע מהשרת :( נסה\י לרענן את העמוד</p>
-      )}
-      <Banner src={Madbiron} alt="ארז אמברצ'י המדבירון הירוק" />
-    </HomeContainer>
+    <Container>
+      <HomeContainer>
+        <Logo />
+        <Intro />
+        {!tournamentsState.loading && !tournamentsState.error && (
+          <TournamentsNav />
+        )}
+        {tournamentsState.loading && <Loading />}
+        {tournamentsState.error && (
+          <p>אוף! לא הצלחתי למשוך את המידע מהשרת :( נסה\י לרענן את העמוד</p>
+        )}
+        <Banner src={Madbiron} alt="ארז אמברצ'י המדבירון הירוק" />
+      </HomeContainer>
+    </Container>
   );
 };
 
 const Intro = () => (
   <p>
-    נרשמתם לטורניר כדורעף של איגוד הכדורעף ואתם מתים כבר לדעת מול מי תשחקו בבתים? האתר הזה מיועד בשבילכם!
+    נרשמתם לטורניר כדורעף של איגוד הכדורעף ואתם מתים כבר לדעת מול מי תשחקו
+    בבתים? האתר הזה מיועד בשבילכם!
     <br />
     <br />
     אבל רגע, איך זה עובד?
     <br />
-    טוב ששאלתם. האתר מושך את רשימת השחקנים שנרשמו לטורניר בכל
-    קטגוריה מאתר איגוד הכדורעף, ומחשב לפי נקודות הדירוג של כל שחקן מה יהיו הבתים. שיבוץ הבתים מתבצע על פי שיטת
-    "הנחש" הידועה שבה עושה שימוש איגוד הכדורעף.
+    טוב ששאלתם. האתר מושך את רשימת השחקנים שנרשמו לטורניר בכל קטגוריה מאתר איגוד
+    הכדורעף, ומחשב לפי נקודות הדירוג של כל שחקן מה יהיו הבתים. שיבוץ הבתים מתבצע
+    על פי שיטת "הנחש" הידועה שבה עושה שימוש איגוד הכדורעף.
     <br />
     <br />
-    רוצים לשלוח פידבק, הצעה או סתם מילה טובה?{" "}
-    שלחו <Share number="972523065991">וואטסאפ</Share> או <a href="mailto:hadarom13@gmail.com">אימייל</a>.
+    רוצים לשלוח פידבק, הצעה או סתם מילה טובה? שלחו{" "}
+    <Share number="972523065991">וואטסאפ</Share> או{" "}
+    <a href="mailto:hadarom13@gmail.com">אימייל</a>.
   </p>
 );
 
