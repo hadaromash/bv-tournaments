@@ -208,6 +208,7 @@ namespace BeachVolleyball
             HtmlNode playersTable = categoryDoc.GetElementbyId("TeamRoster");
             List<HtmlNode> htmlPlayers = playersTable.Descendants("tr").ToList();
             htmlPlayers.RemoveRange(0, 1);
+            htmlPlayers.RemoveAll(pNode => pNode.InnerText.Equals("הגרלה ראשית") || pNode.InnerText.Equals("מוקדמות רזרבה"));
             return htmlPlayers;
         }
 
