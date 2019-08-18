@@ -13,6 +13,11 @@ namespace BeachVolleyball
     {
         public List<Pool> SetupPools(List<Team> teams)
         {
+            if (teams.Count >= 48)
+            {
+                return SetPoolsDraw(teams, 16, 3);
+            }
+
             if (teams.Count >= 32)
             {
                 return SetPoolsDraw(teams, 8, 4);
