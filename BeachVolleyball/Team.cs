@@ -12,18 +12,15 @@ namespace BeachVolleyball
         {
             this.Player1 = player1;
             this.Player2 = player2;
-
-            this.Rank = player1.Rank + player2.Rank;
-            this.PreviousYearRank = player1.PreviousYearRank + player2.PreviousYearRank;
         }
 
         public Player Player1 { get; }
 
         public Player Player2 { get; }
 
-        public double Rank { get; }
+        public double Rank => this.Player1.Rank + this.Player2.Rank;
 
-        public double PreviousYearRank { get; }
+        public double PreviousYearRank => this.Player1.PreviousYearRank + this.Player2.PreviousYearRank;
 
         public override string ToString()
         {

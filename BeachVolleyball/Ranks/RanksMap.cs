@@ -83,7 +83,7 @@ namespace BeachVolleyball
 
         private static string GetRankingPageUrl(int year, Gender gender, AgeGroup ageGroup)
         {
-            const string RankingWebPageTemplate = "http://www.iva.org.il/Ranking.asp?cYear={0}&cMode=0&GenderId={1}&level_id={2}#";
+            const string RankingWebPageTemplate = "http://www.iva.org.il/Ranking.asp?cYear={0}&cMode=0&GenderId={1}&level_id={2}";
             int genderId = GetGenderId(gender);
             int levelId = GetLevelId(ageGroup);
             return string.Format(RankingWebPageTemplate, year, genderId, levelId);
