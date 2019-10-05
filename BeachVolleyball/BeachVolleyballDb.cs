@@ -152,6 +152,16 @@ namespace BeachVolleyball
 
         private static Gender GetGender(string categoryDisplayName)
         {
+            if (categoryDisplayName.Contains("גברים"))
+            {
+                return Gender.Male;
+            }
+
+            if (categoryDisplayName.Contains("נשים"))
+            {
+                return Gender.Female;
+            }
+
             switch (categoryDisplayName)
             {
                 case "נשים רמה א'":
@@ -180,19 +190,15 @@ namespace BeachVolleyball
             switch (categoryDisplayName)
             {
                 case "נשים רמה א'":
-                    return AgeGroup.Matures;
                 case "גברים רמה א'":
-                    return AgeGroup.Matures;
                 case "גברים רמה ב'":
-                    return AgeGroup.Matures;
                 case "נשים רמה ב'":
+                case "גברים":
+                case "נשים":
                     return AgeGroup.Matures;
                 case "נוער בנים":
-                    return AgeGroup.Youth;
                 case "נוער בנות":
-                    return AgeGroup.Youth;
                 case "נערים":
-                    return AgeGroup.Youth;
                 case "נערות":
                     return AgeGroup.Youth;
                 default:
